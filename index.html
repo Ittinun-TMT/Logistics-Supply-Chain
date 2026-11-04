@@ -815,7 +815,10 @@ function renderOverview(){
   const plan = sales.filter(r=>r.plan!=null).reduce((s,r)=>s+r.plan,0), actP = sales.filter(r=>r.plan!=null).reduce((s,r)=>s+r.act,0);
   const scope = rows.length? rows.map(r=>short(r.name)).join(' · ') : 'ไม่มีข้อมูลตามตัวกรอง';
   $('#kpis').innerHTML = [
-    kpi({icon:'box',lab:'สต็อก Coil',v:stock,u:'ตัน',foot:`${scope}<br>ไม่รวม Service Coil ${nf(serviceCoil())} ตัน`}),
+    /* Service Coil is not split by group in the source file, so it can only be added when no group/segment filter is applied */
+    (S.group==='all' && S.seg==='all')
+      ? kpi({icon:'box',lab:'สต็อก Coil (รวม Service Coil)',v:stock+serviceCoil(),u:'ตัน',foot:`Coil วัตถุดิบ <b>${nf(stock)}</b> + Service Coil <b>${nf(serviceCoil())}</b> ตัน<br>${scope}`})
+      : kpi({icon:'box',lab:'สต็อก Coil',v:stock,u:'ตัน',foot:`${scope}<br>ตามตัวกรอง · ไม่รวม Service Coil ${nf(serviceCoil())} ตัน (ไม่ได้แยกตามกลุ่ม)`}),
     kpi({icon:'truck',lab:'PO ค้างรับ',v:po,u:'ตัน',o:1,foot:`คิดเป็น ${stock?(po/stock).toFixed(1):'–'} เท่าของสต็อกในมือ`}),
     kpi({icon:'clock',lab:'วันสต็อก Coil รวม',v:iss?stock/iss:0,d:1,u:'วัน',foot:`สต็อก ÷ เบิกใช้ ${nf(iss)} ตัน/วัน · รวม PO ${iss?((stock+po)/iss).toFixed(1):'–'} วัน`}),
     kpi({icon:'pause',lab:'Coil Non-Active',v:stock?na/stock*100:0,d:1,s:'%',u:'',o:1,foot:`${nf(na,1)} ตัน ที่ไม่เคลื่อนไหว`,bar:stock?na/stock/0.2:0,barC:C.s2}),
