@@ -55,7 +55,8 @@ b,strong{font-weight:500}
 
 /* ================= HERO ================= */
 header.hero{position:relative;overflow:hidden;color:#fff;background:linear-gradient(135deg,#061F26 0%,#0c3843 48%,#124B59 100%);padding-bottom:64px;isolation:isolate}
-.hero-bg{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.hero-bg{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+header.hero{overflow:clip}
 .hero-bg .gridlines{position:absolute;inset:0;background-image:linear-gradient(rgba(139,186,222,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(139,186,222,.09) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(ellipse at 70% 30%,#000 10%,transparent 72%);mask-image:radial-gradient(ellipse at 70% 30%,#000 10%,transparent 72%)}
 .orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;animation:float 14s ease-in-out infinite}
 .orb.o1{width:420px;height:420px;background:var(--b-orange);right:-120px;top:-180px;opacity:.38}
@@ -298,7 +299,75 @@ footer.foot b{color:#fff;font-family:var(--num);font-weight:500;letter-spacing:.
 .swatches{display:flex;gap:6px}
 .swatches i{width:14px;height:14px;border-radius:5px;display:inline-block}
 
+/* data month picker + add button (hero) */
+.dsel{display:inline-flex;align-items:center;gap:8px;padding:5px 6px 5px 12px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);font-size:12.5px;color:rgba(255,255,255,.75)}
+.dsel svg{width:15px;height:15px;color:var(--b-yellow)}
+.dsel select{font:inherit;font-size:13px;font-weight:400;color:#fff;background:rgba(6,31,38,.55);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:4px 10px;outline:none;cursor:pointer;max-width:220px}
+.dsel select:focus-visible{box-shadow:0 0 0 3px rgba(253,196,64,.45)}
+.dsel select option{color:var(--text);background:#fff}
+.addbtn{display:inline-flex;align-items:center;gap:6px;border:0;font:inherit;font-size:13px;font-weight:500;color:var(--t-900);background:linear-gradient(135deg,var(--b-yellow),#ffd970);padding:8px 15px 8px 12px;border-radius:999px;cursor:pointer;box-shadow:0 8px 20px -8px rgba(253,196,64,.8);transition:transform .2s var(--ease),box-shadow .2s}
+.addbtn svg{width:15px;height:15px}
+.addbtn:hover{transform:translateY(-1px);box-shadow:0 12px 24px -8px rgba(253,196,64,.9)}
+.addbtn:focus-visible{outline:3px solid rgba(255,255,255,.6);outline-offset:2px}
+#srcName{max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* dialog */
+.dlg{border:0;padding:0;border-radius:24px;width:min(560px,calc(100vw - 32px));max-height:calc(100vh - 32px);background:#fff;color:var(--text);box-shadow:0 40px 80px -20px rgba(6,31,38,.55)}
+.dlg::backdrop{background:rgba(6,31,38,.55);backdrop-filter:blur(4px)}
+.dlg[open]{animation:dlgIn .35s var(--ease)}
+.dlg-in{padding:22px 24px 18px;margin:0}
+.dlg-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px}
+.dlg-head .eyebrow{color:var(--orange-600);font-size:11px}
+.dlg-head .eyebrow::before{background:var(--b-orange)}
+.dlg-head h3{margin:6px 0 0;font-size:20px;font-weight:500;color:var(--t-900)}
+.dlg-x{border:0;background:var(--line-2);width:34px;height:34px;border-radius:11px;cursor:pointer;font-size:14px;color:var(--text-2)}
+.dlg-x:hover{background:var(--t-50);color:var(--t-900)}
+.steps{display:flex;flex-direction:column;gap:16px}
+.step{display:flex;gap:12px}
+.step>div{flex:1;min-width:0}
+.step .n{width:28px;height:28px;border-radius:9px;background:var(--t-900);color:var(--b-yellow);display:grid;place-items:center;font-family:var(--num);font-weight:600;font-size:13px;flex:none}
+.step label[for]{display:block;font-size:14px;font-weight:500;color:var(--t-900);margin:3px 0 8px}
+.step input[type=month]{font:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--line);border-radius:12px;color:var(--text);outline:none;width:220px;max-width:100%}
+.step input[type=month]:focus{border-color:var(--b-orange);box-shadow:0 0 0 4px var(--orange-50)}
+.hint{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5}
+.drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:22px 16px;border:2px dashed #C9D6D9;border-radius:16px;background:#FAFCFC;cursor:pointer;color:var(--text-2);font-size:13px;transition:.2s}
+.drop svg{width:28px;height:28px;color:var(--t-700)}
+.drop b{color:var(--orange-600);font-weight:500}
+.drop:hover,.drop.over{border-color:var(--b-orange);background:var(--orange-50)}
+.drop.ok{border-style:solid;border-color:var(--good);background:var(--good-50)}
+.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.upres{margin-top:16px;border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.6;background:var(--t-50)}
+.upres.err{background:var(--crit-50);color:#9B2C2F}
+.upres h4{margin:0 0 6px;font-size:13.5px;font-weight:500;color:var(--t-900)}
+.upres.err h4{color:var(--crit)}
+.upres ul{margin:0;padding-left:18px}
+.upres .kv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin:6px 0}
+.upres .kv b{font-family:var(--num);font-weight:600;color:var(--t-900)}
+.upres .warn{margin-top:8px;padding:8px 10px;border-radius:10px;background:var(--warn-50);color:#7A5200}
+.dlg-foot{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:0;font:inherit;font-size:13.5px;font-weight:500;padding:10px 18px;border-radius:12px;cursor:pointer;background:var(--t-900);color:#fff;transition:.2s}
+.btn:hover{background:var(--t-800)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--text-2);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--t-700);color:var(--t-900)}
+.btn.sm{font-size:12.5px;padding:7px 12px;border-radius:10px;font-weight:400}
+.saved{margin-top:16px;border-top:1px solid var(--line-2);padding-top:12px;font-size:13px}
+.saved summary{cursor:pointer;color:var(--t-900);font-weight:400}
+.saved summary span{color:var(--muted)}
+.sv-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line-2)}
+.sv-row b{font-weight:500;color:var(--t-900)}
+.sv-row small{display:block;color:var(--muted);font-size:11.5px}
+.sv-del{border:1px solid var(--line);background:#fff;color:var(--crit);font:inherit;font-size:12px;padding:5px 10px;border-radius:9px;cursor:pointer}
+.sv-del:hover{border-color:var(--crit);background:var(--crit-50)}
+.bk{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:60;background:var(--t-900);color:#fff;font-size:13.5px;padding:11px 18px;border-radius:14px;box-shadow:0 18px 36px -12px rgba(6,31,38,.6);transition:.35s var(--ease);max-width:calc(100vw - 32px)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.err{background:var(--crit)}
+.ds-note{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;margin-bottom:14px;border-radius:14px;background:var(--warn-50);border:1px solid rgba(217,146,0,.25);font-size:13px;color:#6B4A00;line-height:1.55}
+.ds-note b{color:#5A3E00}
+
 /* animations */
+@keyframes dlgIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
 @keyframes fadeUp{to{opacity:1;transform:none}}
 @keyframes panelIn{from{opacity:0}to{opacity:1}}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,106,5,.6)}70%{box-shadow:0 0 0 8px rgba(255,106,5,0)}100%{box-shadow:0 0 0 0 rgba(255,106,5,0)}}
@@ -330,8 +399,10 @@ footer.foot b{color:#fff;font-family:var(--num);font-weight:500;letter-spacing:.
         <div class="bname">Control Tower<small>Logistics &amp; Supply Chain</small></div>
       </div>
       <div class="hmeta">
-        <span class="pill"><span class="dot"></span>แหล่งข้อมูล: Supply Chain Logistics.xlsx</span>
-        <span class="pill o"><span class="dot live"></span>พ.ย. = ข้อมูลระหว่างเดือน (MTD)</span>
+        <label class="dsel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>ข้อมูลเดือน</span><select id="dsSel" aria-label="เลือกเดือนของข้อมูล"></select></label>
+        <button class="addbtn" id="dsAdd" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>เพิ่มข้อมูล</button>
+        <span class="pill" id="srcPill"><span class="dot"></span><span id="srcName">Supply Chain Logistics.xlsx</span></span>
+        <span class="pill o"><span class="dot live"></span><span><span class="ml-cur">พ.ย.</span> = ข้อมูลระหว่างเดือน (MTD)</span></span>
       </div>
     </div>
 
@@ -397,8 +468,8 @@ footer.foot b{color:#fff;font-family:var(--num);font-weight:500;letter-spacing:.
       </div>
       <div class="fgroup"><span class="flabel">เดือน (ขาย/ผลิต)</span>
         <div class="seg orange" id="fMonth">
-          <button class="on" data-v="Oct">ต.ค.</button>
-          <button data-v="Nov">พ.ย. (MTD)</button>
+          <button class="on" data-v="Oct"><span class="ml-prev">ต.ค.</span></button>
+          <button data-v="Nov"><span class="ml-cur">พ.ย.</span> (MTD)</button>
         </div>
       </div>
       <button class="freset" id="fReset">ล้างตัวกรอง</button>
@@ -484,7 +555,7 @@ footer.foot b{color:#fff;font-family:var(--num);font-weight:500;letter-spacing:.
       <div class="chart h360" id="w_fgBar"><canvas id="fgBar"></canvas></div>
     </div>
     <div class="card c5 anim">
-      <div class="chead"><div><h3>อัตราการเติมสินค้า FG-A</h3><div class="sub">Actual PRD ÷ Sale Order (ต.ค.) · เส้นประ = 100%</div></div></div>
+      <div class="chead"><div><h3>อัตราการเติมสินค้า FG-A</h3><div class="sub">Actual PRD ÷ Sale Order (<span class="ml-prev">ต.ค.</span>) · เส้นประ = 100%</div></div></div>
       <div class="chart h360" id="w_fgFill"><canvas id="fgFill"></canvas></div>
     </div>
   </div>
@@ -495,8 +566,8 @@ footer.foot b{color:#fff;font-family:var(--num);font-weight:500;letter-spacing:.
       <div class="chart" id="w_fgDay"><canvas id="fgDay"></canvas></div>
     </div>
     <div class="card c6 anim">
-      <div class="chead"><div><h3>ความแม่นยำ ต.ค. เทียบ พ.ย. (MTD)</h3><div class="sub">%Accuracy ตามที่ระบุในไฟล์ · พ.ย. ยังเป็นข้อมูลระหว่างเดือน</div></div>
-        <div class="legend"><span><i style="background:var(--s1)"></i>ต.ค.</span><span><i style="background:var(--s2)"></i>พ.ย. (MTD)</span></div></div>
+      <div class="chead"><div><h3>ความแม่นยำ <span class="ml-prev">ต.ค.</span> เทียบ <span class="ml-cur">พ.ย.</span> (MTD)</h3><div class="sub">%Accuracy ตามที่ระบุในไฟล์ · <span class="ml-cur">พ.ย.</span> ยังเป็นข้อมูลระหว่างเดือน</div></div>
+        <div class="legend"><span><i style="background:var(--s1)"></i><span class="ml-prev">ต.ค.</span></span><span><i style="background:var(--s2)"></i><span class="ml-cur">พ.ย.</span> (MTD)</span></div></div>
       <div class="chart" id="w_fgAcc"><canvas id="fgAcc"></canvas></div>
     </div>
   </div>
@@ -509,12 +580,12 @@ footer.foot b{color:#fff;font-family:var(--num);font-weight:500;letter-spacing:.
 <!-- ================= PRODUCTION ================= -->
 <section class="panel" data-panel="prod">
   <div class="card anim">
-    <div class="chead"><div><h3>อัตราการใช้กำลังการผลิตรายสถานี · ต.ค.</h3><div class="sub">Actual ÷ Target/Plan ตามไฟล์ Actual Plan</div></div></div>
+    <div class="chead"><div><h3>อัตราการใช้กำลังการผลิตรายสถานี · <span class="ml-prev">ต.ค.</span></h3><div class="sub">Actual ÷ Target/Plan ตามไฟล์ Actual Plan</div></div></div>
     <div class="rings" id="rings"></div>
   </div>
   <div class="grid g-12 mt">
     <div class="card c6 anim">
-      <div class="chead"><div><h3>แผน vs ผลิตจริง แยกประเภท · ต.ค.</h3><div class="sub">ตัน</div></div>
+      <div class="chead"><div><h3>แผน vs ผลิตจริง แยกประเภท · <span class="ml-prev">ต.ค.</span></h3><div class="sub">ตัน</div></div>
         <div class="legend"><span><i style="background:var(--s1)"></i>Plan / Target</span><span><i style="background:var(--s2)"></i>Actual</span></div></div>
       <div class="chart h360" id="w_prodBar"><canvas id="prodBar"></canvas></div>
     </div>
@@ -594,8 +665,45 @@ footer.foot b{color:#fff;font-family:var(--num);font-weight:500;letter-spacing:.
 </main>
 <footer class="foot"><div class="wrap"><span><b>CONTROL TOWER</b> · ตัวเลขทั้งหมดคำนวณจากไฟล์ Supply Chain Logistics.xlsx โดยตรง · ไม่มีการประมาณค่าเพิ่มเติม</span><span class="swatches" aria-hidden="true"><i style="background:#0c3843;box-shadow:0 0 0 1px rgba(255,255,255,.25)"></i><i style="background:#8bbade"></i><i style="background:#fdc440"></i><i style="background:#ff6a05"></i></span></div></footer>
 
+<!-- ================= ADD DATA DIALOG ================= -->
+<dialog id="upDlg" class="dlg" aria-labelledby="upTitle">
+  <form method="dialog" class="dlg-in" id="upForm">
+    <div class="dlg-head">
+      <div><div class="eyebrow">Data Upload</div><h3 id="upTitle">เพิ่มข้อมูลรายเดือน</h3></div>
+      <button class="dlg-x" value="cancel" aria-label="ปิด">✕</button>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="n">1</span><div><label for="upMonth">เลือกเดือนของข้อมูล</label>
+        <input type="month" id="upMonth" required>
+        <div class="hint">เดือนของรายงาน (เดือนที่เป็นข้อมูลระหว่างเดือน / MTD) · เดือนก่อนหน้าจะใช้เป็นเดือนเต็ม</div></div></div>
+      <div class="step"><span class="n">2</span><div><label for="upFile">อัปโหลดไฟล์ Excel รูปแบบเดิม</label>
+        <label class="drop" id="upDrop"><input type="file" id="upFile" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+          <span id="upDropTxt">ลากไฟล์มาวาง หรือ <b>คลิกเพื่อเลือกไฟล์ .xlsx</b></span></label>
+        <div class="hint">ต้องมี 12 Sheet เหมือนไฟล์ Supply Chain Logistics.xlsx (ชื่อ Sheet และหัวตารางเดิม)</div></div></div>
+    </div>
+    <div class="upres" id="upRes" hidden></div>
+    <div class="dlg-foot">
+      <button class="btn ghost" value="cancel">ยกเลิก</button>
+      <button class="btn" id="upSave" type="button" disabled>บันทึกข้อมูล</button>
+    </div>
+    <details class="saved">
+      <summary>ข้อมูลที่บันทึกไว้ในเครื่องนี้ <span id="savedCount"></span></summary>
+      <div id="savedList"></div>
+      <div class="bk">
+        <button class="btn ghost sm" id="bkExport" type="button">สำรองข้อมูลเป็นไฟล์ (.json)</button>
+        <label class="btn ghost sm">นำเข้าไฟล์สำรอง<input type="file" id="bkImport" accept=".json,application/json" hidden></label>
+      </div>
+      <p class="hint">ข้อมูลเก็บในเบราว์เซอร์ของเครื่องนี้เท่านั้น · หากล้างประวัติเบราว์เซอร์ข้อมูลจะหาย จึงควรกดสำรองไว้เป็นระยะ</p>
+    </details>
+  </form>
+</dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <script>
-const D = {"coil": [{"group": "Flat Product", "seg": "All", "name": "Flat Product All", "stockday": 12.0783, "stock": 8363.259, "po": 13485.93, "stockdayPO": 31.5548, "nonActive": 289.075, "pctNA": 0.0346, "issueDay": 692.4214, "issueMonth": 17541.343}, {"group": "Flat Product", "seg": "Group A", "name": "Flat Product Group A", "stockday": 10.8132, "stock": 4237.82, "po": 7470.78, "stockdayPO": 29.8756, "nonActive": 0, "pctNA": 0, "issueDay": 391.9121, "issueMonth": 9928.4392}, {"group": "Flat Product", "seg": "Non Group A", "name": "Flat Product Non Group A", "stockday": 13.7282, "stock": 4125.439, "po": 6015.15, "stockdayPO": 33.7447, "nonActive": 289.075, "pctNA": 0.0701, "issueDay": 300.5094, "issueMonth": 7612.9038}, {"group": "Consistency", "seg": "All", "name": "Consistency", "stockday": 23.082, "stock": 4547.951, "po": 3797.08, "stockdayPO": 42.3531, "nonActive": 530.746, "pctNA": 0.1167, "issueDay": 197.0346, "issueMonth": 4991.543}, {"group": "Manufacturing", "seg": "All", "name": "Manufacturing All", "stockday": 7.7403, "stock": 6893.56, "po": 14770.05, "stockdayPO": 24.3244, "nonActive": 488.3, "pctNA": 0.0708, "issueDay": 890.6109, "issueMonth": 22562.1432}, {"group": "Manufacturing", "seg": "Group A", "name": "Manufacturing Group A", "stockday": 5.44, "stock": 3973.46, "po": 12233.46, "stockdayPO": 22.1885, "nonActive": 21.465, "pctNA": 0.0054, "issueDay": 730.4198, "issueMonth": 18503.969}, {"group": "Manufacturing", "seg": "Non Group A", "name": "Manufacturing Non Group A", "stockday": 18.2289, "stock": 2920.1, "po": 2536.59, "stockdayPO": 34.0636, "nonActive": 466.835, "pctNA": 0.1599, "issueDay": 160.1911, "issueMonth": 4058.1742}, {"group": "GI", "seg": "All", "name": "GI COIL", "stockday": 20.6609, "stock": 4452.607, "po": 16959.617, "stockdayPO": 99.3567, "nonActive": 132.613, "pctNA": 0.0298, "issueDay": 215.5086, "issueMonth": 5495.4685}], "fg": [{"group": "Flat Product", "seg": "Group A", "name": "HS Group A", "stockday": 9.0063, "stock": 3061, "backlog": 1756, "plan": 5500, "note": "ผลิตเฉลี่ยวันละ 270 ตัน"}, {"group": "Flat Product", "seg": "Non Group A", "name": "HS Non Group A", "stockday": 12, "stock": 2304, "backlog": 2408, "plan": 4000, "note": "ผลิตเฉลี่ยวันละ 200 ตัน"}, {"group": "Flat Product", "seg": "Group A", "name": "FB Group A", "stockday": 11, "stock": 981, "backlog": 982, "plan": 2000, "note": "ผลิตเฉลี่ยวันละ 100 ตัน"}, {"group": "Flat Product", "seg": "Non Group A", "name": "FB Non Group A", "stockday": 16, "stock": 90, "backlog": 222, "plan": 200, "note": "ผลิตเฉลี่ยวันละ 10 ตัน"}, {"group": "Manufacturing", "seg": "Group A", "name": "Pipe Group A", "stockday": 31.9, "stock": 10000, "backlog": 1902, "plan": 9000, "note": null}, {"group": "Manufacturing", "seg": "Non Group A", "name": "Pipe Non Group A", "stockday": 32.2, "stock": 10600, "backlog": 2400, "plan": 7000, "note": null}, {"group": "Manufacturing", "seg": "Group A", "name": "CF Group A", "stockday": 16, "stock": 2160, "backlog": 1200, "plan": 330, "note": null}, {"group": "Manufacturing", "seg": "Non Group A", "name": "CF Non Group A", "stockday": 33.4, "stock": 650, "backlog": 140, "plan": 550, "note": null}, {"group": "GI", "seg": "GI", "name": "PIPE GI", "stockday": 22.3, "stock": 4700, "backlog": 3645, "plan": 4300, "note": null}, {"group": "GI", "seg": "GI", "name": "CF GI", "stockday": 23, "stock": 480, "backlog": 267, "plan": 500, "note": null}], "storageCoil": [{"name": "COIL", "area": 56459, "stock": 35057, "remain": 21402, "pct": 0.6209}, {"name": "Film", "area": 8574, "stock": 6313, "remain": 2261, "pct": 0.7363}], "flatSales": [{"type": "HS", "stock": 9090, "soOct": 10641, "actOct": 12693, "accOct": 1.1928, "soNov": 1480, "actNov": 1440, "accNov": 0.973}, {"type": "FB", "stock": 1956, "soOct": 2239, "actOct": 2078, "accOct": 0.9281, "soNov": 359, "actNov": 298, "accNov": 0.8301}], "flatArea": {"area": 18474, "remain": 7428}, "mfgSales": [{"type": "PIPE", "stock": 21402.96, "fcOct": 18305, "soOct": 15381, "planOct": 18150, "actOct": 17221, "accOct": 0.9488, "fcNov": 17701, "soNov": 1508, "planNov": 19789, "actNov": 2333, "accNov": 0.1179}, {"type": "C Channel", "stock": 2710, "fcOct": 4274, "soOct": 3341, "planOct": 4221, "actOct": 3818, "accOct": 0.9045, "fcNov": 4407, "soNov": 575, "planNov": 3925, "actNov": 430, "accNov": 0.1096}, {"type": "PIPE GI", "stock": 4803.83, "fcOct": 6000, "soOct": 6300, "planOct": 6001, "actOct": 6473, "accOct": 1.0787, "fcNov": 7000, "soNov": 341, "planNov": 4321, "actNov": 0, "accNov": 0}, {"type": "C Channel GI", "stock": 378.92, "fcOct": 700, "soOct": 554, "planOct": 681, "actOct": 710, "accOct": 1.0426, "fcNov": 845, "soNov": 10, "planNov": 647, "actNov": 0, "accNov": 0}], "mfgArea": {"area": 29731, "remain": 435.29}, "plan": [{"station": "ตัดม้วน", "wd": 26, "target": 34320, "util": 0.7442, "items": [{"t": "HRC", "act": 24200}, {"t": "งานจ้าง STL", "act": 1296}, {"t": "งานจ้าง HRC", "act": 45}], "total": 25541}, {"station": "ท่อ", "wd": 25, "target": 24150, "util": 0.9811, "items": [{"t": "ท่อดำ", "plan": 18150, "act": 17221}, {"t": "ท่อ GI", "plan": 6000, "act": 6473}], "total": 23694}, {"station": "ซี", "wd": 25, "target": 4902, "util": 0.9238, "items": [{"t": "ตัวซีดำ", "plan": 4221, "act": 3818.132}, {"t": "ตัวซี GI", "plan": 681, "act": 710.226}], "total": 4528.358}], "fill": [{"group": "Flat Product", "type": "HS Group ALL", "item": null, "so": 10641, "act": 12693, "pct": 1.1928}, {"group": "Flat Product", "type": "HS Group A", "item": 17, "so": 5905, "act": 7016, "pct": 1.1881}, {"group": "Manufacturing", "type": "Pipe Group A", "item": 61, "so": 7470, "act": 9826, "pct": 1.3154}, {"group": "Manufacturing", "type": "CF Group A", "item": 13, "so": 3204, "act": 3973, "pct": 1.24}], "hsA": [{"d": "1.20 X 1219 X 2438mm", "stock": 76.0004, "so": 69.777, "remain": 6.2233, "days": 0.676}, {"d": "2.00 X 1219 X 2438mm", "stock": 173.7599, "so": 128.1006, "remain": 45.6593, "days": 2.2836}, {"d": "3.00 X 1219 X 2438mm", "stock": 220.3146, "so": 121.2824, "remain": 99.0322, "days": 3.2633}, {"d": "4.00 X 1219 X 2438mm", "stock": 104.7442, "so": 66.9897, "remain": 37.7545, "days": 1.9992}, {"d": "4.50 X 1219 X 2438mm", "stock": 184.4756, "so": 69.088, "remain": 115.3876, "days": 10.323}, {"d": "6.00 X 1219 X 2438mm", "stock": 391.4291, "so": 169.8558, "remain": 221.5733, "days": 8.1391}, {"d": "9.00 X 1219 X 2438mm", "stock": 197.6351, "so": 70.497, "remain": 127.138, "days": 7.3657}, {"d": "12.00 X 1219 X 2438mm", "stock": 112.658, "so": 48.0712, "remain": 64.5868, "days": 4.1272}, {"d": "3.00 X 1524 X 3048mm", "stock": 74.4859, "so": 93.2599, "remain": -18.774, "days": -1.4705}, {"d": "4.00 X 1524 X 3048mm", "stock": 66.1424, "so": 33.0059, "remain": 33.1365, "days": 3.9407}, {"d": "4.50 X 1524 X 3048mm", "stock": 121.3719, "so": 71.2742, "remain": 50.0976, "days": 4.6429}, {"d": "6.00 X 1524 X 3048mm", "stock": 354.1734, "so": 160.8912, "remain": 193.2821, "days": 8.169}, {"d": "9.00 X 1524 X 3048mm", "stock": 212.0249, "so": 159.9994, "remain": 52.0254, "days": 4.2504}, {"d": "12.00 X 1524 X 3048mm", "stock": 170.1024, "so": 140.5952, "remain": 29.5071, "days": 2.4928}, {"d": "6.00 X 1524 X 6096mm", "stock": 171.6086, "so": 69.7602, "remain": 101.8484, "days": 5.8927}, {"d": "9.00 X 1524 X 6096mm", "stock": 205.6912, "so": 86.7076, "remain": 118.9835, "days": 12.5573}, {"d": "12.00 X 1524 X 6096mm", "stock": 189.0766, "so": 196.3505, "remain": -7.2739, "days": -0.5863}], "cap": [{"group": "Flat Product", "m": "ตัดม้วน", "teams": 5, "open": 5, "ot": 4, "note": "การเติม Stock ยังคงทำได้ช้า โดยเฉพาะ Group A ยังกลับมาได้ไม่ครบ\nเปิด OT. วันอาทิตย์  เพื่อเติม Buffer Stock STD", "proj": "DITH AUSTRALIA เดือน 11", "qty": 500}, {"group": "Flat Product", "m": "ซอยยาว", "teams": 9, "open": 7, "ot": 6, "note": "Stock เริ่มเพิ่มขึ้นมาอยู่ในระดับที่ปลอดภัย", "proj": null, "qty": null}, {"group": "Manufacturing", "m": "ท่อ", "teams": 27, "open": 26, "ot": 26, "note": "Stock เริ่มเพิ่มขึ้นมาอยู่ในระดับที่ปลอดภัย", "proj": "-", "qty": "-"}, {"group": "Manufacturing", "m": "ซี", "teams": 5, "open": 5, "ot": 5, "note": "Stock เริ่มเพิ่มขึ้นมาอยู่ในระดับที่ปลอดภัย", "proj": "-", "qty": "-"}, {"group": "Semi Raw Material", "m": "สลิต", "teams": 7, "open": 7, "ot": 7, "note": "-", "proj": "-", "qty": "-"}], "sf": [{"m": "Jan", "wd": 26, "tgt": 960, "act": 21072.9254, "avg": 810.4971, "pct": 0.8443, "loss": 149.5029}, {"m": "Feb", "wd": 24, "tgt": 960, "act": 20211.1176, "avg": 842.1299, "pct": 0.8772, "loss": 117.8701}, {"m": "Mar", "wd": 26, "tgt": 960, "act": 20293.8066, "avg": 780.531, "pct": 0.8131, "loss": 179.469}, {"m": "Apr", "wd": 22, "tgt": 960, "act": 14982.1479, "avg": 681.0067, "pct": 0.7094, "loss": 278.9933}, {"m": "May", "wd": 24, "tgt": 960, "act": 17896.8185, "avg": 745.7008, "pct": 0.7768, "loss": 214.2992}, {"m": "Jun", "wd": 24, "tgt": 960, "act": 16547.0086, "avg": 689.4587, "pct": 0.7182, "loss": 270.5413}, {"m": "Jul", "wd": 26, "tgt": 960, "act": 17608.9456, "avg": 677.2671, "pct": 0.7055, "loss": 282.7329}, {"m": "Aug", "wd": 25, "tgt": 960, "act": 19255.3474, "avg": 770.2139, "pct": 0.8023, "loss": 189.7861}, {"m": "Sep", "wd": 26, "tgt": 960, "act": 20829.6983, "avg": 801.1422, "pct": 0.8345, "loss": 158.8578}], "nsf": [{"m": "Jan", "wd": 26, "tgt": 360, "act": 3444.4566, "avg": 132.4791, "pct": 0.368, "loss": 227.5209}, {"m": "Feb", "wd": 24, "tgt": 360, "act": 4543.7808, "avg": 189.3242, "pct": 0.5259, "loss": 170.6758}, {"m": "Mar", "wd": 26, "tgt": 360, "act": 6090.5288, "avg": 234.2511, "pct": 0.6507, "loss": 125.7489}, {"m": "Apr", "wd": 22, "tgt": 360, "act": 4243.7152, "avg": 192.8961, "pct": 0.5358, "loss": 167.1039}, {"m": "May", "wd": 24, "tgt": 360, "act": 4211.8606, "avg": 175.4942, "pct": 0.4875, "loss": 184.5058}, {"m": "Jun", "wd": 24, "tgt": 360, "act": 3109.1032, "avg": 129.546, "pct": 0.3598, "loss": 230.454}, {"m": "Jul", "wd": 26, "tgt": 360, "act": 4931.6167, "avg": 189.6776, "pct": 0.5269, "loss": 170.3224}, {"m": "Aug", "wd": 25, "tgt": 360, "act": 4493.6472, "avg": 179.7459, "pct": 0.4993, "loss": 180.2541}, {"m": "Sep", "wd": 26, "tgt": 360, "act": 5960.7863, "avg": 229.261, "pct": 0.6368, "loss": 130.739}], "noMoveTotal": {"req": "448 T.", "stock": 490.3}, "noMove": [{"cg": "เสาการ์ดเรล", "size": "ท่อกลม 3 1/2\"  ความยาว 6 M.", "d": "ท่อกลม 101.6 (3 1/2\") x 4.00 x 6000mm TIS/JIS", "aim": 3.6, "safety": 1000, "stock": 1050, "reqT": 53.0, "stockT": 56, "note": null}, {"cg": "เสาการ์ดเรล", "size": "ท่อกลม 3 1/2\"  ความยาว 6 M.", "d": "ท่อกลม 101.6 (3 1/2\") x 4.00 x 6000mm TIS/JIS", "aim": 3.85, "safety": 600, "stock": 1491, "reqT": 34.0, "stockT": 83, "note": null}, {"cg": "เสาการ์ดเรล", "size": "ท่อกลม 3 1/2\"  ความยาว 6 M.", "d": "ท่อกลม 101.6 (3 1/2\") x 4.50 x 6000mm TIS/JIS", "aim": 4.07, "safety": 1000, "stock": 1051, "reqT": 60.0, "stockT": 63, "note": null}, {"cg": "เสาการ์ดเรล", "size": "ท่อกลม 2\" ความยาว 6 M.", "d": "ท่อกลม 60.5 (2\") x 4.00x6000mm TIS/JIS", "aim": 3.6, "safety": 500, "stock": 450, "reqT": 15.0, "stockT": 15, "note": null}, {"cg": "เสาการ์ดเรล", "size": "ท่อกลม 2\" ความยาว 6 M.", "d": "ท่อกลม 60.5 (2\") x 4.00x6000mm TIS/JIS", "aim": 3.85, "safety": 1000, "stock": 1202, "reqT": 33.0, "stockT": 39.2, "note": null}, {"cg": "เสาการ์ดเรล", "size": "Blockout", "d": "Blockout 150x75x20x4.5mmx330mm", "aim": 4.6, "safety": 4000, "stock": 5230, "reqT": 15.0, "stockT": 19, "note": null}, {"cg": "เสาการ์ดเรล", "size": "Blockout", "d": "วัตถุดิบ Blockout 150x75x20x4.5mmx6000mm", "aim": 4.6, "safety": 223, "stock": 438, "reqT": 15.0, "stockT": 26.5, "note": null}, {"cg": "เสาการ์ดเรล", "size": "เสาการ์ดเรล", "d": "เสาการ์ดเรล รู19 H60 4.5mm. X 2M. (2รู)", "aim": 4.07, "safety": 6000, "stock": 6599, "reqT": 126.0, "stockT": 138, "note": null}, {"cg": "เสาการ์ดเรล", "size": "เสาการ์ดเรล", "d": "ฝา 2.50mm x OD 100mm", "aim": null, "safety": 6000, "stock": 6470, "reqT": 1.1, "stockT": 1.3, "note": null}, {"cg": "เสาการ์ดเรล", "size": "เสาการ์ดเรล", "d": "Steel Plate 4.0x100mm. สูง 60 รู 19mm", "aim": 4, "safety": 12000, "stock": 7301, "reqT": 7.2, "stockT": 4.3, "note": null}, {"cg": "กลุ่ม Con&Fab", "size": "ท่อกลม 165.2 (6\")", "d": "ท่อกลม 165.2 (6\") x 4.50 x 12000 mm TIS/JIS", "aim": 4.07, "safety": 80, "stock": 0, "reqT": 15.0, "stockT": 0, "note": null}, {"cg": "กลุ่ม Con&Fab", "size": "ท่อกลม 165.2 (6\")", "d": "ท่อกลม 165.2 (6\") x 6.00 x 12000 mm TIS/JIS", "aim": 5.42, "safety": 80, "stock": 81, "reqT": 20.0, "stockT": 21, "note": "มีเหล็กความยาวขาด 31 เส้น"}, {"cg": "กลุ่ม Con&Fab", "size": "ท่อกลม 216.3 (8\")", "d": "ท่อกลม 216.3 (8\") x 4.50 x 12000 mm TIS/JIS", "aim": 4.07, "safety": 80, "stock": 73, "reqT": 21.0, "stockT": 19, "note": null}, {"cg": "กลุ่ม Con&Fab", "size": "ท่อกลม 216.3 (8\")", "d": "ท่อกลม 216.3 (8\") x 6.00 x 12000 mm TIS/JIS", "aim": 5.42, "safety": 80, "stock": 0, "reqT": 27.7, "stockT": 0, "note": null}, {"cg": "กลุ่ม Con&Fab", "size": "ท่อระบบ พ่นสี", "d": "ท่อA53SCH40GR.A 20(3/4\")x2.87mmx6M สีแดง", "aim": null, "safety": 500, "stock": 500, "reqT": 5.0, "stockT": 5, "note": null}], "bigPipe": [{"mat": "3BPTS015070-1510", "d": "ท่อกลม 165.2 (6\") x7.00x6000mm TIS/JIS", "t": 8.6304}, {"mat": "3BPTS015080-1754", "d": "ท่อกลม 165.2 (6\") x8.00x6000mm TIS/JIS", "t": 24.255}, {"mat": "3BPTS020070-2015", "d": "ท่อกลม 216.3 (8\") x 7.00x6000mm TIS/JIS", "t": 18.9571}, {"mat": "3BPTS020090-2591", "d": "ท่อกลม 216.3 (8\") x 9.00x6000mm TIS/JIS", "t": 45.9432}, {"mat": "3BPTS025080-2870", "d": "ท่อกลม 267.4 (10\") x8.00x6000mm TIS/JIS", "t": 27.1939}, {"mat": "3RPTS15010090-1766", "d": "แป๊บแบน 150 x 100 x 9.00x6000mm TIS/JIS", "t": 7.4962}, {"mat": "3RPTS20010080-1931", "d": "แป๊บแบน 200 x 100 x 8.00x6000mm TIS/JIS", "t": 18.7033}, {"mat": "3RPTS20010090-2154", "d": "แป๊บแบน 200 x 100 x 9.00x6000mm TIS/JIS", "t": 27.831}, {"mat": "3RPTS200100100-237", "d": "แป๊บแบน 200 x 100 x 10.00x6000mm TIS/JIS", "t": 36.16}, {"mat": "3SPTS0100-080-1242", "d": "ท่อเหลี่ยม 100 x 100x8.00x6000mm TIS/JIS", "t": 15.8903}, {"mat": "3SPTS0125-090-1767", "d": "ท่อเหลี่ยม 125 x 125x9.00x6000mm TIS/JIS", "t": 20.235}, {"mat": "3SPTS0150-080-1932", "d": "ท่อเหลี่ยม 150 x 150x8.00x6000mm TIS/JIS", "t": 26.8002}, {"mat": "3SPTS0175-090-2541", "d": "ท่อเหลี่ยม 175 x 175x9.00x6000mm TIS/JIS", "t": 19.3284}, {"mat": "3SPTS0200-050-1659", "d": "ท่อเหลี่ยม 200 x 200x5.00x6000mm TIS/JIS", "t": 21.4786}, {"mat": "3SPTS0200-100-3231", "d": "ท่อเหลี่ยม 200 x 200x10.0x6000mm TIS/JIS", "t": 40.3428}], "giBuy": [{"size": "แป๊บแบน 100 x 50 x 1.20mmx6000mmTIS/JIS", "th": 1.2, "std": "TIS/JIS 290", "t": 30}, {"size": "แป๊บแบน 100 x 50 x 1.40mmx6000mmTIS/JIS", "th": 1.4, "std": "TIS/JIS 290", "t": 40}, {"size": "แป๊บแบน 100 x 50 x 1.60mmx6000mmTIS/JIS", "th": 1.6, "std": "TIS/JIS 290", "t": 40}, {"size": "แป๊บแบน 75 x 38 x 1.20mmx6000mmTIS/JIS", "th": 1.2, "std": "TIS/JIS 290", "t": 80}, {"size": "แป๊บแบน 75 x 38 x 1.40mmx6000mmTIS/JIS", "th": 1.4, "std": "TIS/JIS 290", "t": 80}, {"size": "แป๊บแบน 75 x 38 x 1.60mmx6000mmTIS/JIS", "th": 1.6, "std": "TIS/JIS 290", "t": 30}, {"size": "แป๊บแบน 50 x 25 x 1.20mmx6000mmTIS/JIS", "th": 1.2, "std": "TIS/JIS 290", "t": 80}, {"size": "แป๊บแบน 50 x 25 x 1.40mmx6000mmTIS/JIS", "th": 1.4, "std": "TIS/JIS 290", "t": 80}, {"size": "แป๊บแบน 50 x 25 x 1.60mmx6000mmTIS/JIS", "th": 1.6, "std": "TIS/JIS 290", "t": 40}]}
+let D = {"coil": [{"group": "Flat Product", "seg": "All", "name": "Flat Product All", "stockday": 12.0783, "stock": 8363.259, "po": 13485.93, "stockdayPO": 31.5548, "nonActive": 289.075, "pctNA": 0.0346, "issueDay": 692.4214, "issueMonth": 17541.343}, {"group": "Flat Product", "seg": "Group A", "name": "Flat Product Group A", "stockday": 10.8132, "stock": 4237.82, "po": 7470.78, "stockdayPO": 29.8756, "nonActive": 0, "pctNA": 0, "issueDay": 391.9121, "issueMonth": 9928.4392}, {"group": "Flat Product", "seg": "Non Group A", "name": "Flat Product Non Group A", "stockday": 13.7282, "stock": 4125.439, "po": 6015.15, "stockdayPO": 33.7447, "nonActive": 289.075, "pctNA": 0.0701, "issueDay": 300.5094, "issueMonth": 7612.9038}, {"group": "Consistency", "seg": "All", "name": "Consistency", "stockday": 23.082, "stock": 4547.951, "po": 3797.08, "stockdayPO": 42.3531, "nonActive": 530.746, "pctNA": 0.1167, "issueDay": 197.0346, "issueMonth": 4991.543}, {"group": "Manufacturing", "seg": "All", "name": "Manufacturing All", "stockday": 7.7403, "stock": 6893.56, "po": 14770.05, "stockdayPO": 24.3244, "nonActive": 488.3, "pctNA": 0.0708, "issueDay": 890.6109, "issueMonth": 22562.1432}, {"group": "Manufacturing", "seg": "Group A", "name": "Manufacturing Group A", "stockday": 5.44, "stock": 3973.46, "po": 12233.46, "stockdayPO": 22.1885, "nonActive": 21.465, "pctNA": 0.0054, "issueDay": 730.4198, "issueMonth": 18503.969}, {"group": "Manufacturing", "seg": "Non Group A", "name": "Manufacturing Non Group A", "stockday": 18.2289, "stock": 2920.1, "po": 2536.59, "stockdayPO": 34.0636, "nonActive": 466.835, "pctNA": 0.1599, "issueDay": 160.1911, "issueMonth": 4058.1742}, {"group": "GI", "seg": "All", "name": "GI COIL", "stockday": 20.6609, "stock": 4452.607, "po": 16959.617, "stockdayPO": 99.3567, "nonActive": 132.613, "pctNA": 0.0298, "issueDay": 215.5086, "issueMonth": 5495.4685}], "fg": [{"group": "Flat Product", "seg": "Group A", "name": "HS Group A", "stockday": 9.0063, "stock": 3061, "backlog": 1756, "plan": 5500, "note": "ผลิตเฉลี่ยวันละ 270 ตัน"}, {"group": "Flat Product", "seg": "Non Group A", "name": "HS Non Group A", "stockday": 12, "stock": 2304, "backlog": 2408, "plan": 4000, "note": "ผลิตเฉลี่ยวันละ 200 ตัน"}, {"group": "Flat Product", "seg": "Group A", "name": "FB Group A", "stockday": 11, "stock": 981, "backlog": 982, "plan": 2000, "note": "ผลิตเฉลี่ยวันละ 100 ตัน"}, {"group": "Flat Product", "seg": "Non Group A", "name": "FB Non Group A", "stockday": 16, "stock": 90, "backlog": 222, "plan": 200, "note": "ผลิตเฉลี่ยวันละ 10 ตัน"}, {"group": "Manufacturing", "seg": "Group A", "name": "Pipe Group A", "stockday": 31.9, "stock": 10000, "backlog": 1902, "plan": 9000, "note": null}, {"group": "Manufacturing", "seg": "Non Group A", "name": "Pipe Non Group A", "stockday": 32.2, "stock": 10600, "backlog": 2400, "plan": 7000, "note": null}, {"group": "Manufacturing", "seg": "Group A", "name": "CF Group A", "stockday": 16, "stock": 2160, "backlog": 1200, "plan": 330, "note": null}, {"group": "Manufacturing", "seg": "Non Group A", "name": "CF Non Group A", "stockday": 33.4, "stock": 650, "backlog": 140, "plan": 550, "note": null}, {"group": "GI", "seg": "GI", "name": "PIPE GI", "stockday": 22.3, "stock": 4700, "backlog": 3645, "plan": 4300, "note": null}, {"group": "GI", "seg": "GI", "name": "CF GI", "stockday": 23, "stock": 480, "backlog": 267, "plan": 500, "note": null}], "storageCoil": [{"name": "COIL", "area": 56459, "stock": 35057, "remain": 21402, "pct": 0.6209}, {"name": "Film", "area": 8574, "stock": 6313, "remain": 2261, "pct": 0.7363}], "flatSales": [{"type": "HS", "stock": 9090, "soOct": 10641, "actOct": 12693, "accOct": 1.1928, "soNov": 1480, "actNov": 1440, "accNov": 0.973}, {"type": "FB", "stock": 1956, "soOct": 2239, "actOct": 2078, "accOct": 0.9281, "soNov": 359, "actNov": 298, "accNov": 0.8301}], "flatArea": {"area": 18474, "remain": 7428}, "mfgSales": [{"type": "PIPE", "stock": 21402.96, "fcOct": 18305, "soOct": 15381, "planOct": 18150, "actOct": 17221, "accOct": 0.9488, "fcNov": 17701, "soNov": 1508, "planNov": 19789, "actNov": 2333, "accNov": 0.1179}, {"type": "C Channel", "stock": 2710, "fcOct": 4274, "soOct": 3341, "planOct": 4221, "actOct": 3818, "accOct": 0.9045, "fcNov": 4407, "soNov": 575, "planNov": 3925, "actNov": 430, "accNov": 0.1096}, {"type": "PIPE GI", "stock": 4803.83, "fcOct": 6000, "soOct": 6300, "planOct": 6001, "actOct": 6473, "accOct": 1.0787, "fcNov": 7000, "soNov": 341, "planNov": 4321, "actNov": 0, "accNov": 0}, {"type": "C Channel GI", "stock": 378.92, "fcOct": 700, "soOct": 554, "planOct": 681, "actOct": 710, "accOct": 1.0426, "fcNov": 845, "soNov": 10, "planNov": 647, "actNov": 0, "accNov": 0}], "mfgArea": {"area": 29731, "remain": 435.29}, "plan": [{"station": "ตัดม้วน", "wd": 26, "target": 34320, "util": 0.7442, "items": [{"t": "HRC", "act": 24200}, {"t": "งานจ้าง STL", "act": 1296}, {"t": "งานจ้าง HRC", "act": 45}], "total": 25541}, {"station": "ท่อ", "wd": 25, "target": 24150, "util": 0.9811, "items": [{"t": "ท่อดำ", "plan": 18150, "act": 17221}, {"t": "ท่อ GI", "plan": 6000, "act": 6473}], "total": 23694}, {"station": "ซี", "wd": 25, "target": 4902, "util": 0.9238, "items": [{"t": "ตัวซีดำ", "plan": 4221, "act": 3818.132}, {"t": "ตัวซี GI", "plan": 681, "act": 710.226}], "total": 4528.358}], "fill": [{"group": "Flat Product", "type": "HS Group ALL", "item": null, "so": 10641, "act": 12693, "pct": 1.1928}, {"group": "Flat Product", "type": "HS Group A", "item": 17, "so": 5905, "act": 7016, "pct": 1.1881}, {"group": "Manufacturing", "type": "Pipe Group A", "item": 61, "so": 7470, "act": 9826, "pct": 1.3154}, {"group": "Manufacturing", "type": "CF Group A", "item": 13, "so": 3204, "act": 3973, "pct": 1.24}], "hsA": [{"d": "1.20 X 1219 X 2438mm", "stock": 76.0004, "so": 69.777, "remain": 6.2233, "days": 0.676}, {"d": "2.00 X 1219 X 2438mm", "stock": 173.7599, "so": 128.1006, "remain": 45.6593, "days": 2.2836}, {"d": "3.00 X 1219 X 2438mm", "stock": 220.3146, "so": 121.2824, "remain": 99.0322, "days": 3.2633}, {"d": "4.00 X 1219 X 2438mm", "stock": 104.7442, "so": 66.9897, "remain": 37.7545, "days": 1.9992}, {"d": "4.50 X 1219 X 2438mm", "stock": 184.4756, "so": 69.088, "remain": 115.3876, "days": 10.323}, {"d": "6.00 X 1219 X 2438mm", "stock": 391.4291, "so": 169.8558, "remain": 221.5733, "days": 8.1391}, {"d": "9.00 X 1219 X 2438mm", "stock": 197.6351, "so": 70.497, "remain": 127.138, "days": 7.3657}, {"d": "12.00 X 1219 X 2438mm", "stock": 112.658, "so": 48.0712, "remain": 64.5868, "days": 4.1272}, {"d": "3.00 X 1524 X 3048mm", "stock": 74.4859, "so": 93.2599, "remain": -18.774, "days": -1.4705}, {"d": "4.00 X 1524 X 3048mm", "stock": 66.1424, "so": 33.0059, "remain": 33.1365, "days": 3.9407}, {"d": "4.50 X 1524 X 3048mm", "stock": 121.3719, "so": 71.2742, "remain": 50.0976, "days": 4.6429}, {"d": "6.00 X 1524 X 3048mm", "stock": 354.1734, "so": 160.8912, "remain": 193.2821, "days": 8.169}, {"d": "9.00 X 1524 X 3048mm", "stock": 212.0249, "so": 159.9994, "remain": 52.0254, "days": 4.2504}, {"d": "12.00 X 1524 X 3048mm", "stock": 170.1024, "so": 140.5952, "remain": 29.5071, "days": 2.4928}, {"d": "6.00 X 1524 X 6096mm", "stock": 171.6086, "so": 69.7602, "remain": 101.8484, "days": 5.8927}, {"d": "9.00 X 1524 X 6096mm", "stock": 205.6912, "so": 86.7076, "remain": 118.9835, "days": 12.5573}, {"d": "12.00 X 1524 X 6096mm", "stock": 189.0766, "so": 196.3505, "remain": -7.2739, "days": -0.5863}], "cap": [{"group": "Flat Product", "m": "ตัดม้วน", "teams": 5, "open": 5, "ot": 4, "note": "การเติม Stock ยังคงทำได้ช้า โดยเฉพาะ Group A ยังกลับมาได้ไม่ครบ\nเปิด OT. วันอาทิตย์  เพื่อเติม Buffer Stock STD", "proj": "DITH AUSTRALIA เดือน 11", "qty": 500}, {"group": "Flat Product", "m": "ซอยยาว", "teams": 9, "open": 7, "ot": 6, "note": "Stock เริ่มเพิ่มขึ้นมาอยู่ในระดับที่ปลอดภัย", "proj": null, "qty": null}, {"group": "Manufacturing", "m": "ท่อ", "teams": 27, "open": 26, "ot": 26, "note": "Stock เริ่มเพิ่มขึ้นมาอยู่ในระดับที่ปลอดภัย", "proj": "-", "qty": "-"}, {"group": "Manufacturing", "m": "ซี", "teams": 5, "open": 5, "ot": 5, "note": "Stock เริ่มเพิ่มขึ้นมาอยู่ในระดับที่ปลอดภัย", "proj": "-", "qty": "-"}, {"group": "Semi Raw Material", "m": "สลิต", "teams": 7, "open": 7, "ot": 7, "note": "-", "proj": "-", "qty": "-"}], "sf": [{"m": "Jan", "wd": 26, "tgt": 960, "act": 21072.9254, "avg": 810.4971, "pct": 0.8443, "loss": 149.5029}, {"m": "Feb", "wd": 24, "tgt": 960, "act": 20211.1176, "avg": 842.1299, "pct": 0.8772, "loss": 117.8701}, {"m": "Mar", "wd": 26, "tgt": 960, "act": 20293.8066, "avg": 780.531, "pct": 0.8131, "loss": 179.469}, {"m": "Apr", "wd": 22, "tgt": 960, "act": 14982.1479, "avg": 681.0067, "pct": 0.7094, "loss": 278.9933}, {"m": "May", "wd": 24, "tgt": 960, "act": 17896.8185, "avg": 745.7008, "pct": 0.7768, "loss": 214.2992}, {"m": "Jun", "wd": 24, "tgt": 960, "act": 16547.0086, "avg": 689.4587, "pct": 0.7182, "loss": 270.5413}, {"m": "Jul", "wd": 26, "tgt": 960, "act": 17608.9456, "avg": 677.2671, "pct": 0.7055, "loss": 282.7329}, {"m": "Aug", "wd": 25, "tgt": 960, "act": 19255.3474, "avg": 770.2139, "pct": 0.8023, "loss": 189.7861}, {"m": "Sep", "wd": 26, "tgt": 960, "act": 20829.6983, "avg": 801.1422, "pct": 0.8345, "loss": 158.8578}], "nsf": [{"m": "Jan", "wd": 26, "tgt": 360, "act": 3444.4566, "avg": 132.4791, "pct": 0.368, "loss": 227.5209}, {"m": "Feb", "wd": 24, "tgt": 360, "act": 4543.7808, "avg": 189.3242, "pct": 0.5259, "loss": 170.6758}, {"m": "Mar", "wd": 26, "tgt": 360, "act": 6090.5288, "avg": 234.2511, "pct": 0.6507, "loss": 125.7489}, {"m": "Apr", "wd": 22, "tgt": 360, "act": 4243.7152, "avg": 192.8961, "pct": 0.5358, "loss": 167.1039}, {"m": "May", "wd": 24, "tgt": 360, "act": 4211.8606, "avg": 175.4942, "pct": 0.4875, "loss": 184.5058}, {"m": "Jun", "wd": 24, "tgt": 360, "act": 3109.1032, "avg": 129.546, "pct": 0.3598, "loss": 230.454}, {"m": "Jul", "wd": 26, "tgt": 360, "act": 4931.6167, "avg": 189.6776, "pct": 0.5269, "loss": 170.3224}, {"m": "Aug", "wd": 25, "tgt": 360, "act": 4493.6472, "avg": 179.7459, "pct": 0.4993, "loss": 180.2541}, {"m": "Sep", "wd": 26, "tgt": 360, "act": 5960.7863, "avg": 229.261, "pct": 0.6368, "loss": 130.739}], "noMoveTotal": {"req": "448 T.", "stock": 490.3}, "noMove": [{"cg": "เสาการ์ดเรล", "size": "ท่อกลม 3 1/2\"  ความยาว 6 M.", "d": "ท่อกลม 101.6 (3 1/2\") x 4.00 x 6000mm TIS/JIS", "aim": 3.6, "safety": 1000, "stock": 1050, "reqT": 53.0, "stockT": 56, "note": null}, {"cg": "เสาการ์ดเรล", "size": "ท่อกลม 3 1/2\"  ความยาว 6 M.", "d": "ท่อกลม 101.6 (3 1/2\") x 4.00 x 6000mm TIS/JIS", "aim": 3.85, "safety": 600, "stock": 1491, "reqT": 34.0, "stockT": 83, "note": null}, {"cg": "เสาการ์ดเรล", "size": "ท่อกลม 3 1/2\"  ความยาว 6 M.", "d": "ท่อกลม 101.6 (3 1/2\") x 4.50 x 6000mm TIS/JIS", "aim": 4.07, "safety": 1000, "stock": 1051, "reqT": 60.0, "stockT": 63, "note": null}, {"cg": "เสาการ์ดเรล", "size": "ท่อกลม 2\" ความยาว 6 M.", "d": "ท่อกลม 60.5 (2\") x 4.00x6000mm TIS/JIS", "aim": 3.6, "safety": 500, "stock": 450, "reqT": 15.0, "stockT": 15, "note": null}, {"cg": "เสาการ์ดเรล", "size": "ท่อกลม 2\" ความยาว 6 M.", "d": "ท่อกลม 60.5 (2\") x 4.00x6000mm TIS/JIS", "aim": 3.85, "safety": 1000, "stock": 1202, "reqT": 33.0, "stockT": 39.2, "note": null}, {"cg": "เสาการ์ดเรล", "size": "Blockout", "d": "Blockout 150x75x20x4.5mmx330mm", "aim": 4.6, "safety": 4000, "stock": 5230, "reqT": 15.0, "stockT": 19, "note": null}, {"cg": "เสาการ์ดเรล", "size": "Blockout", "d": "วัตถุดิบ Blockout 150x75x20x4.5mmx6000mm", "aim": 4.6, "safety": 223, "stock": 438, "reqT": 15.0, "stockT": 26.5, "note": null}, {"cg": "เสาการ์ดเรล", "size": "เสาการ์ดเรล", "d": "เสาการ์ดเรล รู19 H60 4.5mm. X 2M. (2รู)", "aim": 4.07, "safety": 6000, "stock": 6599, "reqT": 126.0, "stockT": 138, "note": null}, {"cg": "เสาการ์ดเรล", "size": "เสาการ์ดเรล", "d": "ฝา 2.50mm x OD 100mm", "aim": null, "safety": 6000, "stock": 6470, "reqT": 1.1, "stockT": 1.3, "note": null}, {"cg": "เสาการ์ดเรล", "size": "เสาการ์ดเรล", "d": "Steel Plate 4.0x100mm. สูง 60 รู 19mm", "aim": 4, "safety": 12000, "stock": 7301, "reqT": 7.2, "stockT": 4.3, "note": null}, {"cg": "กลุ่ม Con&Fab", "size": "ท่อกลม 165.2 (6\")", "d": "ท่อกลม 165.2 (6\") x 4.50 x 12000 mm TIS/JIS", "aim": 4.07, "safety": 80, "stock": 0, "reqT": 15.0, "stockT": 0, "note": null}, {"cg": "กลุ่ม Con&Fab", "size": "ท่อกลม 165.2 (6\")", "d": "ท่อกลม 165.2 (6\") x 6.00 x 12000 mm TIS/JIS", "aim": 5.42, "safety": 80, "stock": 81, "reqT": 20.0, "stockT": 21, "note": "มีเหล็กความยาวขาด 31 เส้น"}, {"cg": "กลุ่ม Con&Fab", "size": "ท่อกลม 216.3 (8\")", "d": "ท่อกลม 216.3 (8\") x 4.50 x 12000 mm TIS/JIS", "aim": 4.07, "safety": 80, "stock": 73, "reqT": 21.0, "stockT": 19, "note": null}, {"cg": "กลุ่ม Con&Fab", "size": "ท่อกลม 216.3 (8\")", "d": "ท่อกลม 216.3 (8\") x 6.00 x 12000 mm TIS/JIS", "aim": 5.42, "safety": 80, "stock": 0, "reqT": 27.7, "stockT": 0, "note": null}, {"cg": "กลุ่ม Con&Fab", "size": "ท่อระบบ พ่นสี", "d": "ท่อA53SCH40GR.A 20(3/4\")x2.87mmx6M สีแดง", "aim": null, "safety": 500, "stock": 500, "reqT": 5.0, "stockT": 5, "note": null}], "bigPipe": [{"mat": "3BPTS015070-1510", "d": "ท่อกลม 165.2 (6\") x7.00x6000mm TIS/JIS", "t": 8.6304}, {"mat": "3BPTS015080-1754", "d": "ท่อกลม 165.2 (6\") x8.00x6000mm TIS/JIS", "t": 24.255}, {"mat": "3BPTS020070-2015", "d": "ท่อกลม 216.3 (8\") x 7.00x6000mm TIS/JIS", "t": 18.9571}, {"mat": "3BPTS020090-2591", "d": "ท่อกลม 216.3 (8\") x 9.00x6000mm TIS/JIS", "t": 45.9432}, {"mat": "3BPTS025080-2870", "d": "ท่อกลม 267.4 (10\") x8.00x6000mm TIS/JIS", "t": 27.1939}, {"mat": "3RPTS15010090-1766", "d": "แป๊บแบน 150 x 100 x 9.00x6000mm TIS/JIS", "t": 7.4962}, {"mat": "3RPTS20010080-1931", "d": "แป๊บแบน 200 x 100 x 8.00x6000mm TIS/JIS", "t": 18.7033}, {"mat": "3RPTS20010090-2154", "d": "แป๊บแบน 200 x 100 x 9.00x6000mm TIS/JIS", "t": 27.831}, {"mat": "3RPTS200100100-237", "d": "แป๊บแบน 200 x 100 x 10.00x6000mm TIS/JIS", "t": 36.16}, {"mat": "3SPTS0100-080-1242", "d": "ท่อเหลี่ยม 100 x 100x8.00x6000mm TIS/JIS", "t": 15.8903}, {"mat": "3SPTS0125-090-1767", "d": "ท่อเหลี่ยม 125 x 125x9.00x6000mm TIS/JIS", "t": 20.235}, {"mat": "3SPTS0150-080-1932", "d": "ท่อเหลี่ยม 150 x 150x8.00x6000mm TIS/JIS", "t": 26.8002}, {"mat": "3SPTS0175-090-2541", "d": "ท่อเหลี่ยม 175 x 175x9.00x6000mm TIS/JIS", "t": 19.3284}, {"mat": "3SPTS0200-050-1659", "d": "ท่อเหลี่ยม 200 x 200x5.00x6000mm TIS/JIS", "t": 21.4786}, {"mat": "3SPTS0200-100-3231", "d": "ท่อเหลี่ยม 200 x 200x10.0x6000mm TIS/JIS", "t": 40.3428}], "giBuy": [{"size": "แป๊บแบน 100 x 50 x 1.20mmx6000mmTIS/JIS", "th": 1.2, "std": "TIS/JIS 290", "t": 30}, {"size": "แป๊บแบน 100 x 50 x 1.40mmx6000mmTIS/JIS", "th": 1.4, "std": "TIS/JIS 290", "t": 40}, {"size": "แป๊บแบน 100 x 50 x 1.60mmx6000mmTIS/JIS", "th": 1.6, "std": "TIS/JIS 290", "t": 40}, {"size": "แป๊บแบน 75 x 38 x 1.20mmx6000mmTIS/JIS", "th": 1.2, "std": "TIS/JIS 290", "t": 80}, {"size": "แป๊บแบน 75 x 38 x 1.40mmx6000mmTIS/JIS", "th": 1.4, "std": "TIS/JIS 290", "t": 80}, {"size": "แป๊บแบน 75 x 38 x 1.60mmx6000mmTIS/JIS", "th": 1.6, "std": "TIS/JIS 290", "t": 30}, {"size": "แป๊บแบน 50 x 25 x 1.20mmx6000mmTIS/JIS", "th": 1.2, "std": "TIS/JIS 290", "t": 80}, {"size": "แป๊บแบน 50 x 25 x 1.40mmx6000mmTIS/JIS", "th": 1.4, "std": "TIS/JIS 290", "t": 80}, {"size": "แป๊บแบน 50 x 25 x 1.60mmx6000mmTIS/JIS", "th": 1.6, "std": "TIS/JIS 290", "t": 40}]}
+/* month labels of the dataset on screen: prev = full month, cur = month-to-date (set by setDataset) */
+let ML = {prev:'ต.ค.', cur:'พ.ย.'};
 ;
 
 /* ---------- helpers ---------- */
@@ -606,7 +714,7 @@ const cvf = v => (v<1 && v>=0.995) ? '0.99' : v.toFixed(2);
 const ml = s => s.replace('Non Group A','Non-A').replace('Group A','A').split(' ');
 const pf = (v, d=1) => (v==null||isNaN(v)) ? '–' : (v*100).toFixed(d)+'%';
 const C = {s1:'#0c3843',s2:'#ff6a05',s3:'#8bbade',ref:'#fdc440',navy:'#0c3843',good:'#12A26A',warn:'#D99200',crit:'#E5484D',grid:'#EDF2F3',text2:'#465B62',muted:'#83979D'};
-const TH_M = {Jan:'ม.ค.',Feb:'ก.พ.',Mar:'มี.ค.',Apr:'เม.ย.',May:'พ.ค.',Jun:'มิ.ย.',Jul:'ก.ค.',Aug:'ส.ค.',Sep:'ก.ย.'};
+const TH_M = {Jan:'ม.ค.',Feb:'ก.พ.',Mar:'มี.ค.',Apr:'เม.ย.',May:'พ.ค.',Jun:'มิ.ย.',Jul:'ก.ค.',Aug:'ส.ค.',Sep:'ก.ย.',Oct:'ต.ค.',Nov:'พ.ย.',Dec:'ธ.ค.'};
 const ICON = {
   alert:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>',
   warn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>',
@@ -796,7 +904,7 @@ function renderOverview(){
   const gi = D.coil.find(r=>r.group==='GI');
   const neg = D.hsA.filter(r=>r.remain<0);
   $('#alerts').innerHTML = [
-    {l:'crit',ic:'alert',h:`คลัง FG Manufacturing เต็ม ${pf(mfgPct)}`,p:`เหลือพื้นที่เพียง ${nf(st[3].rem)} ตัน จาก ${nf(st[3].area)} ตัน ขณะที่ท่อ Pipe มีวันสต็อก 31.9–32.2 วัน`},
+    {l:'crit',ic:'alert',h:`คลัง FG Manufacturing เต็ม ${pf(mfgPct)}`,p:`เหลือพื้นที่เพียง ${nf(st[3].rem)} ตัน จาก ${nf(st[3].area)} ตัน ขณะที่ท่อ Pipe มีวันสต็อก ${D.fg.filter(r=>/^Pipe/.test(r.name)).map(r=>r.stockday).join('–')} วัน`},
     {l:'crit',ic:'alert',h:`FG สต็อกต่ำกว่า Backlog ${D.fg.filter(r=>r.stock<r.backlog).length} ประเภท`,p:`FB Non-A ครอบคลุม Backlog เพียง ${cvf(fbNon.stock/fbNon.backlog)} เท่า · HS Non-A ${cvf(hsNon.stock/hsNon.backlog)} เท่า · แผ่น HS-A ติดลบอีก ${neg.length} รายการ`},
     {l:'warn',ic:'warn',h:`Coil Mfg Group A เหลือ ${mA.stockday.toFixed(1)} วัน`,p:`เบิกใช้ ${nf(mA.issueDay)} ตัน/วัน ต้องพึ่ง PO ค้างรับ ${nf(mA.po)} ตัน (รวมเป็น ${mA.stockdayPO.toFixed(1)} วัน)`},
     {l:'warn',ic:'warn',h:`GI Coil ครอบคลุม ${gi.stockdayPO.toFixed(1)} วัน`,p:`สต็อก ${nf(gi.stock)} ตัน + PO สั่งล่วงหน้า 2 เดือน ${nf(gi.po)} ตัน สูงกว่ากลุ่มอื่นมาก ควรทบทวนจังหวะรับเข้า`},
@@ -821,7 +929,7 @@ function renderOverview(){
     kpi({icon:'clock',lab:'วันสต็อก Coil รวม',v:iss?stock/iss:0,d:1,u:'วัน',foot:`สต็อก ÷ เบิกใช้ ${nf(iss)} ตัน/วัน · รวม PO ${iss?((stock+po)/iss).toFixed(1):'–'} วัน`}),
     kpi({icon:'pause',lab:'Coil Non-Active',v:stock?na/stock*100:0,d:1,s:'%',u:'',o:1,foot:`${nf(na,1)} ตัน ที่ไม่เคลื่อนไหว`,bar:stock?na/stock/0.2:0,barC:C.s2}),
     kpi({icon:'ware',lab:'FG Stock ÷ Backlog',v:fgB?fgS/fgB:0,d:2,u:'เท่า',foot:`สต็อก FG ${nf(fgS)} ตัน · Backlog ${nf(fgB)} ตัน`}),
-    kpi({icon:'gauge',lab:`ผลิตจริง ÷ แผน (${m==='Oct'?'ต.ค.':'พ.ย. MTD'})`,v:plan?actP/plan*100:0,d:1,s:'%',o:1,foot:plan?`Actual ${nf(actP)} / Plan ${nf(plan)} ตัน (สาย Manufacturing)`:'กลุ่มที่เลือกไม่มีข้อมูลแผนผลิต',bar:plan?actP/plan:0,barC:C.s2}),
+    kpi({icon:'gauge',lab:`ผลิตจริง ÷ แผน (${m==='Oct'?ML.prev:ML.cur+' MTD'})`,v:plan?actP/plan*100:0,d:1,s:'%',o:1,foot:plan?`Actual ${nf(actP)} / Plan ${nf(plan)} ตัน (สาย Manufacturing)`:'กลุ่มที่เลือกไม่มีข้อมูลแผนผลิต',bar:plan?actP/plan:0,barC:C.s2}),
   ].join('');
 
   /* storage */
@@ -839,7 +947,7 @@ function renderOverview(){
     options:{indexAxis:'y',scales:{x:{...gridX,title:{display:true,text:'วัน'}},y:noGrid},plugins:{tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.raw.toFixed(1)} วัน`}},endLabel:{datasets:[0,1],fmt:v=>v.toFixed(1)}}}} : {empty:'ไม่มีข้อมูล Coil ตามตัวกรองนี้'});
 
   /* sales chart */
-  $('#ovSalesSub').textContent = m==='Oct'?'เดือน ต.ค.':'เดือน พ.ย. (ข้อมูลระหว่างเดือน)';
+  $('#ovSalesSub').textContent = m==='Oct'?'เดือน '+ML.prev:'เดือน '+ML.cur+' (ข้อมูลระหว่างเดือน)';
   mk('ovSales', sales.length? {type:'bar',data:{labels:sales.map(r=>r.lab),datasets:[
     {label:'Forecast',data:sales.map(r=>r.fc),backgroundColor:C.ref},
     {label:'Sale Order',data:sales.map(r=>r.so),backgroundColor:C.s1},
@@ -926,7 +1034,7 @@ function renderFG(){
   const acc=[]; const allow=t=>S.seg==='all'||(S.seg==='GI'&&/GI/.test(t));
   if(S.group==='all'||S.group==='Flat Product') D.flatSales.forEach(r=>allow(r.type)&&acc.push({l:r.type,o:r.accOct,n:r.accNov}));
   if(S.group==='all'||S.group==='Manufacturing') D.mfgSales.forEach(r=>allow(r.type)&&acc.push({l:r.type,o:r.accOct,n:r.accNov}));
-  mk('fgAcc', acc.length? {type:'bar',data:{labels:acc.map(r=>r.l),datasets:[{label:'ต.ค.',data:acc.map(r=>+(r.o*100).toFixed(1)),backgroundColor:C.s1},{label:'พ.ย. (MTD)',data:acc.map(r=>+(r.n*100).toFixed(1)),backgroundColor:C.s2}]},
+  mk('fgAcc', acc.length? {type:'bar',data:{labels:acc.map(r=>r.l),datasets:[{label:ML.prev,data:acc.map(r=>+(r.o*100).toFixed(1)),backgroundColor:C.s1},{label:ML.cur+' (MTD)',data:acc.map(r=>+(r.n*100).toFixed(1)),backgroundColor:C.s2}]},
     options:{scales:{y:{...gridX,min:0,ticks:{callback:v=>v+'%'}},x:noGrid},plugins:{ref:{value:100,label:'100%'},endLabel:{fmt:v=>v.toFixed(1)+'%'},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}%`}}}}} : {empty:'ไม่มีข้อมูล'});
   const tot={stock:S_,backlog:B,plan:P};
   $('#fgTbl').innerHTML = `<thead><tr><th>ประเภท FG</th><th class="l">กลุ่มธุรกิจ</th><th>Stockday</th><th>Stock (ตัน)</th><th>Backlog (ตัน)</th><th>Plan (ตัน)</th><th>Coverage</th><th class="l">หมายเหตุ</th><th>สถานะ</th></tr></thead><tbody>`+
@@ -1015,43 +1123,60 @@ function renderInsight(){
   const nm0=D.noMove.filter(r=>r.stock===0), nmLow=D.noMove.filter(r=>r.stock>0&&r.stock<r.safety);
   const cut=D.plan[0], pipeSt=D.plan[1], cSt=D.plan[2];
   const sof = v=>v.toFixed(1);
+  const cmpW = (a,b)=> a>b?'สูงกว่า':a<b?'ต่ำกว่า':'เท่ากับ';
+  const ms = t=>D.mfgSales.find(r=>r.type===t)||{}, fl = t=>D.fill.find(r=>r.type===t)||{};
+  const pGI=ms('PIPE GI'), cGI=ms('C Channel GI');
+  const capOf = m=>D.cap.find(r=>r.m===m), soy=capOf('ซอยยาว'), cutCap=capOf('ตัดม้วน');
+  const hasProj = c=>c && c.proj && c.proj!=='-';
+  const giT = D.giBuy.reduce((s,r)=>s+(+r.t||0),0);
+  const allRows = D.coil.filter(r=>r.seg==='All');
+  const sfN=D.sf.length, sfA=D.sf[Math.max(0,sfN-3)], sfZ=D.sf[sfN-1];
+  const sfRange = `${TH_M[D.sf[0].m]||D.sf[0].m}–${TH_M[sfZ.m]||sfZ.m}`;
+  const mfgP = st[3].used/st[3].area, fgShort = D.fg.filter(r=>r.stock<r.backlog);
+  const fcOver = D.mfgSales.filter(r=>r.fcOct && r.soOct<r.fcOct).map(r=>r.type);
+  const giOthers = allRows.filter(r=>r.group!=='GI').map(r=>r.stockdayPO);
+  const giMax=Math.max(...giOthers), giMin=Math.min(...giOthers);
+  const nmShort = r=>r.d.replace(' TIS/JIS','').replace('mm','');
+  const nm0Safety = [...new Set(nm0.map(r=>r.safety))];
+  const nmNotes = D.noMove.filter(r=>r.note).map(r=>`${nmShort(r)}: ${r.note}`);
+  const fbN=f('FB Non Group A'), hsN=f('HS Non Group A'), fbA=f('FB Group A'), pA=f('Pipe Group A'), pN=f('Pipe Non Group A');
   const list=[
-   {lv:'crit',t:'1. พื้นที่คลัง FG Manufacturing เกือบเต็ม และสต็อกท่อสูง',b:[
-     `คลัง FG Manufacturing ใช้ <b>${pf(st[3].used/st[3].area)}</b> (${nf(st[3].used)} / ${nf(st[3].area)} ตัน) เหลือเพียง <b>${nf(st[3].rem)} ตัน</b>`,
-     `Pipe Group A / Non-A มีวันสต็อก <b>${f('Pipe Group A').stockday} / ${f('Pipe Non Group A').stockday} วัน</b> และสต็อกเป็น ${(f('Pipe Group A').stock/f('Pipe Group A').backlog).toFixed(1)} / ${(f('Pipe Non Group A').stock/f('Pipe Non Group A').backlog).toFixed(1)} เท่าของ Backlog`,
-     `ต.ค. ผลิต PIPE จริง <b>${nf(pipe.actOct)}</b> ตัน สูงกว่า Sale Order ${nf(pipe.soOct)} ตัน (${pf(pipe.actOct/pipe.soOct,0)}) ทำให้สต็อกสะสม`,
-     `เทียบกับคลัง FG Flat Product ใช้เพียง ${pf(st[2].used/st[2].area)} และคลัง Coil ${pf(st[0].used/st[0].area)}`],
-    rec:'<b>แนะนำ:</b> ปรับแผนผลิตท่อ พ.ย. (แผน '+nf(pipe.planNov)+' ตัน) ให้สอดคล้อง Sale Order จริง · เร่งระบายสต็อก Pipe ส่วนเกิน · พิจารณาย้ายสต็อกบางส่วนไปพื้นที่ที่ยังว่าง'},
-   {lv:'crit',t:'2. ความเสี่ยงขาดสต็อกสินค้าสำเร็จรูป',b:[
-     `<b>FB Non Group A</b> สต็อก ${nf(f('FB Non Group A').stock)} ตัน vs Backlog ${nf(f('FB Non Group A').backlog)} ตัน (ครอบคลุม ${(f('FB Non Group A').stock/f('FB Non Group A').backlog).toFixed(2)} เท่า) แผนผลิต ${nf(f('FB Non Group A').plan)} ตัน (${f('FB Non Group A').note})`,
-     `<b>HS Non Group A</b> สต็อก ${nf(f('HS Non Group A').stock)} ตัน ต่ำกว่า Backlog ${nf(f('HS Non Group A').backlog)} ตัน · <b>FB Group A</b> ${nf(f('FB Group A').stock)} vs ${nf(f('FB Group A').backlog)} ตัน (พอดี)`,
-     `แผ่น HS-A ติดลบ ${neg.length} รายการ: ${neg.map(r=>`<b>${r.d.replace('mm','')}</b> (${nf(r.remain,1)} ตัน)`).join(', ')}`,
-     `ใกล้หมด (&lt;2 วัน): ${tight.map(r=>`${r.d.replace('mm','')} (${r.days.toFixed(2)} วัน)`).join(', ')}`],
-    rec:'<b>แนะนำ:</b> จัดลำดับตัด/ซอยให้ HS/FB Non-A และขนาดแผ่นที่ติดลบก่อน · ใช้ทีมซอยยาวที่ยังไม่เปิด 2 ทีม (เปิด 7 จาก 9) เสริมการผลิต'},
+   {lv:mfgP>=.9?'crit':mfgP>=.75?'warn':'info',t:`1. พื้นที่คลัง FG Manufacturing ${mfgP>=.9?'เกือบเต็ม':'ใช้ '+pf(mfgP,0)} และสต็อกท่อ`,b:[
+     `คลัง FG Manufacturing ใช้ <b>${pf(mfgP)}</b> (${nf(st[3].used)} / ${nf(st[3].area)} ตัน) เหลือ <b>${nf(st[3].rem)} ตัน</b>`,
+     `Pipe Group A / Non-A มีวันสต็อก <b>${pA.stockday} / ${pN.stockday} วัน</b> และสต็อกเป็น ${(pA.stock/pA.backlog).toFixed(1)} / ${(pN.stock/pN.backlog).toFixed(1)} เท่าของ Backlog`,
+     `${ML.prev} ผลิต PIPE จริง <b>${nf(pipe.actOct)}</b> ตัน ${cmpW(pipe.actOct,pipe.soOct)} Sale Order ${nf(pipe.soOct)} ตัน (${pf(pipe.actOct/pipe.soOct,0)})${pipe.actOct>pipe.soOct?' ทำให้สต็อกสะสม':''}`,
+     `เทียบกับคลัง FG Flat Product ใช้ ${pf(st[2].used/st[2].area)} และคลัง Coil ${pf(st[0].used/st[0].area)}`],
+    rec:`<b>แนะนำ:</b> ปรับแผนผลิตท่อ ${ML.cur} (แผน ${nf(pipe.planNov)} ตัน) ให้สอดคล้อง Sale Order จริง · เร่งระบายสต็อก Pipe ส่วนเกิน · พิจารณาย้ายสต็อกบางส่วนไปพื้นที่ที่ยังว่าง`},
+   {lv:fgShort.length?'crit':'warn',t:'2. ความเสี่ยงขาดสต็อกสินค้าสำเร็จรูป',b:[
+     `<b>FB Non Group A</b> สต็อก ${nf(fbN.stock)} ตัน vs Backlog ${nf(fbN.backlog)} ตัน (ครอบคลุม ${(fbN.stock/fbN.backlog).toFixed(2)} เท่า) แผนผลิต ${nf(fbN.plan)} ตัน${fbN.note?` (${fbN.note})`:''}`,
+     `<b>HS Non Group A</b> สต็อก ${nf(hsN.stock)} ตัน ${cmpW(hsN.stock,hsN.backlog)} Backlog ${nf(hsN.backlog)} ตัน · <b>FB Group A</b> ${nf(fbA.stock)} vs ${nf(fbA.backlog)} ตัน${Math.abs(fbA.stock/fbA.backlog-1)<=.05?' (พอดี)':''}`,
+     `แผ่น HS-A ติดลบ ${neg.length} รายการ${neg.length?': '+neg.map(r=>`<b>${r.d.replace('mm','')}</b> (${nf(r.remain,1)} ตัน)`).join(', '):''}`,
+     `ใกล้หมด (&lt;2 วัน): ${tight.length?tight.map(r=>`${r.d.replace('mm','')} (${r.days.toFixed(2)} วัน)`).join(', '):'ไม่มี'}`],
+    rec:`<b>แนะนำ:</b> จัดลำดับตัด/ซอยให้ ${fgShort.length?fgShort.map(r=>short(r.name)).join(' / '):'HS/FB Non-A'} และขนาดแผ่นที่ติดลบก่อน${soy && soy.open<soy.teams?` · ใช้ทีมซอยยาวที่ยังไม่เปิด ${soy.teams-soy.open} ทีม (เปิด ${soy.open} จาก ${soy.teams}) เสริมการผลิต`:''}`},
    {lv:'warn',t:'3. วัตถุดิบ Coil: บางกลุ่มบาง บางกลุ่มหนา',b:[
      `<b>Manufacturing Group A</b> เหลือ ${sof(mA.stockday)} วัน (เบิก ${nf(mA.issueDay)} ตัน/วัน) ต้องพึ่ง PO ${nf(mA.po)} ตัน — ความเสี่ยงหาก PO เข้าช้า`,
-     `<b>Manufacturing Non Group A</b> สต็อก ${sof(mN.stockday)} วัน และ Non-Active ${pf(mN.pctNA)} (${nf(mN.nonActive,1)} ตัน) สูงสุดในทุกกลุ่ม`,
-     `<b>Consistency</b> Non-Active ${pf(con.pctNA)} (${nf(con.nonActive,1)} ตัน) มากที่สุดในเชิงปริมาณ · วันสต็อก ${sof(con.stockday)} วัน`,
-     `<b>GI Coil</b> Stock day + PO = ${sof(gi.stockdayPO)} วัน (PO สั่งล่วงหน้า 2 เดือน ${nf(gi.po)} ตัน) สูงกว่ากลุ่มอื่น 2–4 เท่า`,
-     `Flat Product Group A ${sof(fA.stockday)} วัน · Non-Active 0% — หมุนเวียนดี`],
-    rec:'<b>แนะนำ:</b> ติดตามวันเข้า PO ของ Mfg Group A รายสัปดาห์ · กำหนดแผนใช้ Coil Non-Active ('+nf(D.coil.filter(r=>r.seg==='All').reduce((s,r)=>s+r.nonActive,0),1)+' ตัน รวม 4 กลุ่ม) · ทบทวนจังหวะรับ GI Coil และตรวจว่าข้อเสนอสั่งท่อ GI 500 ตันผลิตจาก GI Coil ที่มีได้หรือไม่'},
+     `<b>Manufacturing Non Group A</b> สต็อก ${sof(mN.stockday)} วัน และ Non-Active ${pf(mN.pctNA)} (${nf(mN.nonActive,1)} ตัน)${D.coil.every(r=>r.pctNA<=mN.pctNA)?' สูงสุดในทุกกลุ่ม':''}`,
+     `<b>Consistency</b> Non-Active ${pf(con.pctNA)} (${nf(con.nonActive,1)} ตัน)${allRows.every(r=>r.nonActive<=con.nonActive)?' มากที่สุดในเชิงปริมาณ':''} · วันสต็อก ${sof(con.stockday)} วัน`,
+     `<b>GI Coil</b> Stock day + PO = ${sof(gi.stockdayPO)} วัน (PO ${nf(gi.po)} ตัน)${gi.stockdayPO>giMax?` สูงกว่ากลุ่มอื่น ${(gi.stockdayPO/giMax).toFixed(1)}–${(gi.stockdayPO/giMin).toFixed(1)} เท่า`:''}`,
+     `Flat Product Group A ${sof(fA.stockday)} วัน · Non-Active ${pf(fA.pctNA)}${fA.pctNA===0?' — หมุนเวียนดี':''}`],
+    rec:`<b>แนะนำ:</b> ติดตามวันเข้า PO ของ Mfg Group A รายสัปดาห์ · กำหนดแผนใช้ Coil Non-Active (${nf(allRows.reduce((s,r)=>s+r.nonActive,0),1)} ตัน รวม ${allRows.length} กลุ่ม) · ทบทวนจังหวะรับ GI Coil${giT?` และตรวจว่าข้อเสนอสั่งท่อ GI ${nf(giT)} ตันผลิตจาก GI Coil ที่มีได้หรือไม่`:''}`},
    {lv:'warn',t:'4. ประสิทธิภาพการผลิตและ Stay Flat',b:[
-     `สถานีตัดม้วน ต.ค. ผลิต ${nf(cut.total)} จากเป้า ${nf(cut.target)} ตัน = <b>${pf(cut.total/cut.target)}</b> (มีงานจ้าง STL ${nf(cut.items[1].act)} ตัน) · ท่อ ${pf(pipeSt.total/pipeSt.target)} · ซี ${pf(cSt.total/cSt.target)}`,
-     `Stay Flat ม.ค.–ก.ย. ได้ <b>${pf(sfY)}</b> ของเป้า (ต่ำสุด ${TH_M[sfMin.m]} ${pf(sfMin.pct)} · สูงสุด ${TH_M[sfMax.m]} ${pf(sfMax.pct)}) ฟื้นตัวต่อเนื่อง ก.ค.→ก.ย. จาก ${pf(D.sf[6].pct)} เป็น ${pf(D.sf[8].pct)}`,
-     `No Stay Flat ได้เพียง <b>${pf(nsfY)}</b> ของเป้า 360 ตัน/วัน — ช่องว่างใหญ่ที่สุดในสายการผลิต`,
-     `หน้างานรายงาน: การเติมสต็อก Group A ของตัดม้วนยังทำได้ช้า เปิด OT วันอาทิตย์ และมีงาน Project DITH AUSTRALIA 500 ตัน ใน พ.ย.`],
-    rec:'<b>แนะนำ:</b> วิเคราะห์สาเหตุ Loss ของ No Stay Flat (เครื่องจักร/วัตถุดิบ/คน) · จัดคิว Project 500 ตันไม่ให้แย่งกำลังผลิต Group A'},
+     `สถานีตัดม้วน ${ML.prev} ผลิต ${nf(cut.total)} จากเป้า ${nf(cut.target)} ตัน = <b>${pf(cut.total/cut.target)}</b>${cut.items[1]?` (มี${cut.items[1].t} ${nf(cut.items[1].act)} ตัน)`:''} · ท่อ ${pf(pipeSt.total/pipeSt.target)} · ซี ${pf(cSt.total/cSt.target)}`,
+     `Stay Flat ${sfRange} ได้ <b>${pf(sfY)}</b> ของเป้า (ต่ำสุด ${TH_M[sfMin.m]||sfMin.m} ${pf(sfMin.pct)} · สูงสุด ${TH_M[sfMax.m]||sfMax.m} ${pf(sfMax.pct)}) ${sfZ.pct>=sfA.pct?'ฟื้นตัว':'ลดลง'} ${TH_M[sfA.m]||sfA.m}→${TH_M[sfZ.m]||sfZ.m} จาก ${pf(sfA.pct)} เป็น ${pf(sfZ.pct)}`,
+     `No Stay Flat ได้ <b>${pf(nsfY)}</b> ของเป้า ${nf(D.nsf[0].tgt)} ตัน/วัน${nsfY<sfY?' — ช่องว่างใหญ่กว่า Stay Flat':''}`,
+     ...(cutCap?[`หน้างานรายงาน (${cutCap.m}): ${String(cutCap.note||'-').replace(/\n/g,' · ')}${hasProj(cutCap)?` · Project ${cutCap.proj} ${nf(cutCap.qty)} ตัน`:''}`]:[])],
+    rec:`<b>แนะนำ:</b> วิเคราะห์สาเหตุ Loss ของ No Stay Flat (เครื่องจักร/วัตถุดิบ/คน)${hasProj(cutCap)?` · จัดคิว Project ${nf(cutCap.qty)} ตันไม่ให้แย่งกำลังผลิต Group A`:''}`},
    {lv:'info',t:'5. ความแม่นยำของ Forecast และแผน',b:[
-     `ต.ค. Sale Order เทียบ Forecast: PIPE ${pf(pipe.soOct/pipe.fcOct)} · C Channel ${pf(cc.soOct/cc.fcOct)} · PIPE GI ${pf(D.mfgSales[2].soOct/D.mfgSales[2].fcOct)} — Forecast ท่อดำ/ซีดำ สูงกว่ายอดขายจริง`,
-     `ผลิตจริงเทียบแผน ต.ค.: PIPE ${pf(pipe.accOct)} · C Channel ${pf(cc.accOct)} · PIPE GI ${pf(D.mfgSales[2].accOct)} · C Channel GI ${pf(D.mfgSales[3].accOct)}`,
-     `HS ผลิตจริง ${nf(hs.actOct)} ตัน vs Sale Order ${nf(hs.soOct)} ตัน (${pf(hs.accOct)}) — เติม Buffer Group A (อัตราเติม HS-A ${pf(D.fill[1].pct)}, Pipe-A ${pf(D.fill[2].pct)}, CF-A ${pf(D.fill[3].pct)})`,
-     `พ.ย. เป็นข้อมูลระหว่างเดือน: PIPE ผลิตแล้ว ${nf(pipe.actNov)} / แผน ${nf(pipe.planNov)} ตัน`],
-    rec:'<b>แนะนำ:</b> ปรับ Forecast ท่อดำและซีดำลงตามแนวโน้มยอดขายจริง และติดตามรายสัปดาห์ใน พ.ย.'},
+     `${ML.prev} Sale Order เทียบ Forecast: PIPE ${pf(pipe.soOct/pipe.fcOct)} · C Channel ${pf(cc.soOct/cc.fcOct)} · PIPE GI ${pf(pGI.soOct/pGI.fcOct)}${fcOver.length?` — Forecast ${fcOver.join(' / ')} สูงกว่ายอดขายจริง`:''}`,
+     `ผลิตจริงเทียบแผน ${ML.prev}: PIPE ${pf(pipe.accOct)} · C Channel ${pf(cc.accOct)} · PIPE GI ${pf(pGI.accOct)} · C Channel GI ${pf(cGI.accOct)}`,
+     `HS ผลิตจริง ${nf(hs.actOct)} ตัน vs Sale Order ${nf(hs.soOct)} ตัน (${pf(hs.accOct)}) — อัตราเติม HS-A ${pf(fl('HS Group A').pct)}, Pipe-A ${pf(fl('Pipe Group A').pct)}, CF-A ${pf(fl('CF Group A').pct)}`,
+     `${ML.cur} เป็นข้อมูลระหว่างเดือน: PIPE ผลิตแล้ว ${nf(pipe.actNov)} / แผน ${nf(pipe.planNov)} ตัน`],
+    rec:`<b>แนะนำ:</b> ${fcOver.length?`ปรับ Forecast ${fcOver.join(' / ')} ลงตามแนวโน้มยอดขายจริง และ`:''}ติดตามรายสัปดาห์ใน ${ML.cur}`},
    {lv:'warn',t:'6. Safety Stock สินค้า No Move',b:[
-     `ไม่มีสต็อกเลย ${nm0.length} รายการ: ${nm0.map(r=>`<b>${r.d.replace(' TIS/JIS','')}</b>`).join(', ')} (Safety รายการละ 80 เส้น)`,
-     `ต่ำกว่า Safety ${nmLow.length} รายการ: ${nmLow.map(r=>`${r.d.replace(' TIS/JIS','').replace('mm','')} (${pf(r.stock/r.safety,0)})`).join(', ')}`,
-     `ภาพรวม: ขอทำ ${D.noMoveTotal.req} คงเหลือ ${nf(D.noMoveTotal.stock,1)} ตัน · ท่อ 6" x 6.00 มีเหล็กความยาวขาด 31 เส้น`],
-    rec:'<b>แนะนำ:</b> เปิดงานผลิตท่อ 6" x 4.50 และ 8" x 6.00 (12 ม.) สำหรับกลุ่ม Con&amp;Fab และเติม Steel Plate ให้ครบ 12,000 ชิ้น'},
+     `ไม่มีสต็อกเลย ${nm0.length} รายการ${nm0.length?': '+nm0.map(r=>`<b>${r.d.replace(' TIS/JIS','')}</b>`).join(', '):''}${nm0Safety.length===1?` (Safety รายการละ ${nf(nm0Safety[0])} เส้น)`:''}`,
+     `ต่ำกว่า Safety ${nmLow.length} รายการ${nmLow.length?': '+nmLow.map(r=>`${nmShort(r)} (${pf(r.stock/r.safety,0)})`).join(', '):''}`,
+     `ภาพรวม: ขอทำ ${D.noMoveTotal.req} คงเหลือ ${nf(D.noMoveTotal.stock,1)} ตัน${nmNotes.length?' · '+nmNotes.join(' · '):''}`],
+    rec:`<b>แนะนำ:</b> ${nm0.length?`เปิดงานผลิต ${nm0.map(nmShort).join(', ')}`:'ไม่มีรายการที่สต็อกเป็นศูนย์'}${nmLow.length?` · เติม ${nmLow.map(nmShort).join(', ')} ให้ครบ Safety`:''}`},
   ];
   $('#insList').innerHTML = list.map(x=>`<div class="icard anim"><div class="i-head"><h4>${x.t}</h4>${status(x.lv,{crit:'เร่งด่วน',warn:'เฝ้าระวัง',info:'ข้อสังเกต'}[x.lv])}</div><ul>${x.b.map(b=>`<li>${b}</li>`).join('')}</ul><div class="rec">${x.rec}</div></div>`).join('');
   /* FG bubble */
@@ -1062,7 +1187,7 @@ function renderInsight(){
   const acts=[
     ['เร่งด่วน','crit','ปรับแผนผลิต Pipe ลดสต็อก/พื้นที่คลัง FG Manufacturing','Production Planning'],
     ['เร่งด่วน','crit','ผลิตเติม FB / HS Non-A และแผ่น HS-A ที่ติดลบ','Flat Product'],
-    ['เร่งด่วน','crit','ผลิตท่อ No Move ที่สต็อก = 0 (6" x4.50, 8" x6.00)','Manufacturing'],
+    ['เร่งด่วน','crit','ผลิตท่อ No Move ที่สต็อก = 0'+(nm0.length?' ('+nm0.map(r=>r.d.replace(' TIS/JIS','').replace(' mm','').replace(/^ท่อกลม [0-9.]+ /,'')).join(', ')+')':''),'Manufacturing'],
     ['สูง','warn','ติดตาม PO Coil Mfg Group A รายสัปดาห์','Procurement'],
     ['สูง','warn','ทบทวน PO GI Coil (ครอบคลุม '+gi.stockdayPO.toFixed(0)+' วัน)','Procurement'],
     ['กลาง','info','แผนใช้ Coil Non-Active (Consistency / Mfg Non-A)','Supply Chain'],
@@ -1075,7 +1200,9 @@ function renderInsight(){
 function render(){
   hint();
   const p=document.querySelector(`.panel[data-panel="${S.tab}"]`);
-  ({overview:renderOverview,coil:renderCoil,fg:renderFG,prod:renderProd,sku:renderSKU,insight:renderInsight})[S.tab]();
+  /* an uploaded month may lack rows the page expects — keep the rest of the page working */
+  try{ ({overview:renderOverview,coil:renderCoil,fg:renderFG,prod:renderProd,sku:renderSKU,insight:renderInsight})[S.tab](); }
+  catch(e){ console.error(e); toast('บางส่วนของหน้านี้แสดงไม่ได้ เพราะข้อมูลเดือนนี้ไม่ครบตามรูปแบบเดิม ('+e.message+')', true); }
   animateIn(p);
 }
 bindMini('cmpSel','cmp',renderCmp);
@@ -1088,6 +1215,338 @@ if(!document.fonts) render();
   nodes.forEach(n=>n.addEventListener('click',()=>{ const t=document.querySelector(`.tab[data-tab="${n.dataset.go}"]`); if(t){ t.click(); sync(); document.querySelector('.dock').scrollIntoView({behavior:'smooth',block:'start'}); } }));
   document.querySelectorAll('#tabs .tab').forEach(t=>t.addEventListener('click',sync));
 })();
+
+/* =====================================================================
+   DATA MANAGER — monthly datasets uploaded from the Excel template
+   ===================================================================== */
+
+/* ---------- tiny .xlsx reader (zip + XML, no external library) ---------- */
+const XL = (() => {
+  const td = new TextDecoder();
+  async function inflateRaw(u8){
+    const s = new Blob([u8]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
+    return new Uint8Array(await new Response(s).arrayBuffer());
+  }
+  function unzip(buf){
+    const dv = new DataView(buf), u8 = new Uint8Array(buf);
+    let eocd = -1;
+    for(let i = u8.length - 22; i >= Math.max(0, u8.length - 65557); i--){ if(dv.getUint32(i, true) === 0x06054b50){ eocd = i; break; } }
+    if(eocd < 0) throw new Error('ไฟล์นี้ไม่ใช่ .xlsx (อ่านโครงสร้างไฟล์ไม่ได้)');
+    const n = dv.getUint16(eocd + 10, true); let p = dv.getUint32(eocd + 16, true);
+    const files = {};
+    for(let k = 0; k < n; k++){
+      if(dv.getUint32(p, true) !== 0x02014b50) throw new Error('ไฟล์ .xlsx เสียหาย');
+      const method = dv.getUint16(p + 10, true), csize = dv.getUint32(p + 20, true);
+      const nlen = dv.getUint16(p + 28, true), xlen = dv.getUint16(p + 30, true), clen = dv.getUint16(p + 32, true), off = dv.getUint32(p + 42, true);
+      files[td.decode(u8.subarray(p + 46, p + 46 + nlen))] = {method, csize, off};
+      p += 46 + nlen + xlen + clen;
+    }
+    return async name => {
+      const f = files[name]; if(!f) return null;
+      const start = f.off + 30 + dv.getUint16(f.off + 26, true) + dv.getUint16(f.off + 28, true);
+      const raw = u8.subarray(start, start + f.csize);
+      if(f.method === 0) return td.decode(raw);
+      if(f.method === 8) return td.decode(await inflateRaw(raw));
+      throw new Error('รูปแบบการบีบอัดไฟล์ไม่รองรับ');
+    };
+  }
+  const xml = s => new DOMParser().parseFromString(s, 'application/xml');
+  const all = (node, tag) => [...node.getElementsByTagNameNS('*', tag)];
+  const colNum = c => [...c].reduce((n, ch) => n * 26 + ch.charCodeAt(0) - 64, 0);
+  const colStr = n => { let s = ''; while(n > 0){ const m = (n - 1) % 26; s = String.fromCharCode(65 + m) + s; n = Math.floor((n - 1) / 26); } return s; };
+
+  async function read(buf){
+    const get = unzip(buf);
+    const wbXml = await get('xl/workbook.xml'); if(!wbXml) throw new Error('ไม่พบ workbook ในไฟล์ (ไม่ใช่ไฟล์ Excel)');
+    const wb = xml(wbXml), rels = xml(await get('xl/_rels/workbook.xml.rels'));
+    const ssXml = await get('xl/sharedStrings.xml');
+    const strings = ssXml ? all(xml(ssXml), 'si').map(si => all(si, 't').filter(t => t.parentNode.localName !== 'rPh').map(t => t.textContent).join('')) : [];
+    const relMap = {}; all(rels, 'Relationship').forEach(r => relMap[r.getAttribute('Id')] = r.getAttribute('Target'));
+    const sheets = {};
+    for(const s of all(wb, 'sheet')){
+      const rid = s.getAttributeNS('http://schemas.openxmlformats.org/officeDocument/2006/relationships', 'id') || s.getAttribute('r:id');
+      let target = relMap[rid]; if(!target) continue;
+      target = target.replace(/^\//, '').replace(/^xl\//, '');
+      const doc = xml(await get('xl/' + target)); if(!doc) continue;
+      const cells = {}; let maxRow = 0;
+      all(doc, 'c').forEach(c => {
+        const ref = c.getAttribute('r'), t = c.getAttribute('t'); const vEl = all(c, 'v')[0];
+        let v = vEl ? vEl.textContent : null;
+        if(t === 's') v = v == null ? null : strings[+v];
+        else if(t === 'inlineStr') v = all(c, 't').map(x => x.textContent).join('');
+        else if(t === 'b') v = v === '1';
+        else if(t === 'e') v = null;
+        else if(t !== 'str' && v != null && v !== '' && !isNaN(v)) v = Number(v);
+        if(v === '' ) v = null;
+        if(v != null){ cells[ref] = v; maxRow = Math.max(maxRow, +ref.replace(/^[A-Z]+/, '')); }
+      });
+      const merged = {};
+      all(doc, 'mergeCell').forEach(m => {
+        const [a, b] = m.getAttribute('ref').split(':'); if(!b) return;
+        const c1 = colNum(a.match(/[A-Z]+/)[0]), r1 = +a.match(/\d+/)[0], c2 = colNum(b.match(/[A-Z]+/)[0]), r2 = +b.match(/\d+/)[0];
+        for(let r = r1; r <= r2; r++) for(let c = c1; c <= c2; c++) if(r !== r1 || c !== c1) merged[colStr(c) + r] = a;
+      });
+      sheets[s.getAttribute('name')] = mkSheet(s.getAttribute('name'), cells, merged, maxRow);
+    }
+    return sheets;
+  }
+  function mkSheet(name, cells, merged, maxRow){
+    const v = (c, r) => cells[c + r] ?? null;
+    const s = (c, r) => { const x = v(c, r); return x == null ? '' : String(x).trim(); };
+    const n = (c, r) => { const x = v(c, r); if(typeof x === 'number') return x; if(typeof x === 'string' && x.trim() !== '' && !isNaN(x)) return Number(x); return null; };
+    const sm = (c, r) => { const x = v(c, r) ?? (merged[c + r] ? cells[merged[c + r]] : null); return x == null ? '' : String(x).trim(); };
+    const rows = (col, pred) => { const out = []; for(let r = 1; r <= maxRow; r++) if(pred(s(col, r))) out.push(r); return out; };
+    return {name, v, s, n, sm, rows, maxRow};
+  }
+  return {read};
+})();
+
+/* ---------- workbook → dashboard data (same shape as the built-in D) ---------- */
+const SHEETS = {storage:'พื้นที่การจัดเก็บ', flat:'Flat Product', con:'Consistency', mfg:'Manufacturing', gi:'GI', plan:'Actual Plan',
+  fill:'อัตราการเติม FG-A', cap:'Capacity (LM)', sf:'Actual Stayflat', nm:'No move', bp:'Size ท่อใหญ่', gib:'Size ท่อ GI ที่นำเสนอซื้อเพิ่ม'};
+const EN_MONTH = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function buildData(sheets){
+  const norm = x => String(x).replace(/\s+/g, ' ').trim().toLowerCase();
+  const byNorm = {}; Object.keys(sheets).forEach(k => byNorm[norm(k)] = sheets[k]);
+  const missing = Object.values(SHEETS).filter(nm => !byNorm[norm(nm)]);
+  if(missing.length) throw new Error('ไม่พบ Sheet: ' + missing.map(x => `"${x}"`).join(', '));
+  const W = k => byNorm[norm(SHEETS[k])];
+  const r4 = x => (x == null || isNaN(x)) ? null : Math.round(x * 1e4) / 1e4;
+  const div = (a, b) => (a == null || !b) ? null : a / b;
+  const need = (cond, msg) => { if(!cond) throw new Error(msg); };
+  const segOf = nm => /non group a$/i.test(nm) ? 'Non Group A' : /group a$/i.test(nm) ? 'Group A' : 'All';
+  const loop = (ws, col, from, fn, stop) => { for(let r = from; r <= ws.maxRow; r++){ const k = ws.s(col, r); if(!k || (stop && stop(k))) break; fn(r); } };
+
+  const coil = [], fg = [];
+  const coilBlock = (ws, grp) => { const h = ws.rows('B', x => /^type coil$/i.test(x))[0]; need(h, `Sheet "${ws.name}": ไม่พบหัวตาราง "Type Coil"`);
+    loop(ws, 'B', h + 1, r => { const name = ws.s('B', r);
+      coil.push({group: grp || ws.s('A', r), seg: grp === 'GI' ? 'All' : segOf(name), name, stockday: r4(ws.n('C', r)), stock: r4(ws.n('D', r)), po: r4(ws.n('E', r)), stockdayPO: r4(ws.n('F', r)),
+        nonActive: r4(ws.n('G', r)), pctNA: r4(ws.n('H', r)), issueDay: r4(ws.n('I', r)), issueMonth: r4(ws.n('J', r))}); }); };
+  const fgBlock = (ws, grp, seg) => { const h = ws.rows('B', x => /^type fg$/i.test(x))[0]; need(h, `Sheet "${ws.name}": ไม่พบหัวตาราง "Type FG"`);
+    loop(ws, 'B', h + 1, r => { const name = ws.s('B', r);
+      fg.push({group: grp || ws.s('A', r), seg: seg || segOf(name), name, stockday: r4(ws.n('C', r)), stock: r4(ws.n('D', r)), backlog: r4(ws.n('E', r)), plan: r4(ws.n('F', r)), note: ws.s('G', r) || null}); }); };
+  coilBlock(W('flat')); coilBlock(W('con')); coilBlock(W('mfg')); coilBlock(W('gi'), 'GI');
+  fgBlock(W('flat')); fgBlock(W('mfg')); fgBlock(W('gi'), 'GI', 'GI');
+
+  /* storage + sales */
+  const st = W('storage'), hdr = st.rows('A', x => /^external group$/i.test(x));
+  need(hdr.length >= 3, `Sheet "${st.name}": ต้องมีหัวตาราง "External Group" 3 ชุด`);
+  const storageCoil = []; loop(st, 'B', hdr[0] + 1, r => { const area = st.n('C', r), stock = st.n('D', r);
+    storageCoil.push({name: st.s('B', r), area, stock, remain: r4(st.n('E', r) ?? area - stock), pct: r4(st.n('F', r) ?? div(stock, area))}); });
+  const flatSales = []; let r0 = hdr[1] + 1;
+  loop(st, 'B', r0, r => { flatSales.push({type: st.s('B', r), stock: r4(st.n('D', r)), soOct: st.n('F', r), actOct: st.n('G', r), accOct: r4(st.n('H', r) ?? div(st.n('G', r), st.n('F', r))),
+    soNov: st.n('I', r), actNov: st.n('J', r), accNov: r4(st.n('K', r) ?? div(st.n('J', r), st.n('I', r)))}); });
+  const flatArea = {area: st.n('C', r0), remain: r4(st.n('E', r0))};
+  const prevName = st.s('F', hdr[1]).split(/\s+/).pop(), curName = st.s('I', hdr[1]).split(/\s+/).pop();
+  const mfgSales = []; r0 = hdr[2] + 1;
+  loop(st, 'B', r0, r => { mfgSales.push({type: st.s('B', r), stock: r4(st.n('D', r)), fcOct: st.n('F', r), soOct: st.n('G', r), planOct: st.n('H', r), actOct: st.n('I', r),
+    accOct: r4(st.n('J', r) ?? div(st.n('I', r), st.n('H', r))), fcNov: st.n('K', r), soNov: st.n('L', r), planNov: st.n('M', r), actNov: st.n('N', r), accNov: r4(st.n('O', r) ?? div(st.n('N', r), st.n('M', r)))}); });
+  const mfgArea = {area: st.n('C', r0), remain: r4(st.n('E', r0))};
+
+  /* production plan */
+  const pl = W('plan'), plan = []; let planMonth = '';
+  pl.rows('A', x => x === 'สถานี').forEach(h => { const a = h + 1; const rws = []; let tot = null;
+    for(let r = a; r <= pl.maxRow; r++){ const t = pl.s('E', r); if(!t) break; if(/^total$/i.test(t)){ tot = r; break; } rws.push(r); }
+    const hasPlan = rws.slice(1).some(r => pl.n('D', r) != null);
+    const items = rws.map(r => hasPlan ? {t: pl.s('E', r), plan: pl.n('D', r), act: r4(pl.n('F', r))} : {t: pl.s('E', r), act: r4(pl.n('F', r))});
+    const target = hasPlan ? ((tot && pl.n('D', tot) != null) ? pl.n('D', tot) : items.reduce((s, i) => s + (i.plan || 0), 0)) : pl.n('D', a);
+    const total = (tot && pl.n('F', tot) != null) ? r4(pl.n('F', tot)) : r4(items.reduce((s, i) => s + (i.act || 0), 0));
+    planMonth = planMonth || pl.s('B', a);
+    plan.push({station: pl.s('A', a), wd: pl.n('C', a), target, util: r4(pl.n('G', a) ?? div(total, target)), items, total}); });
+
+  /* fill rate + HS-A sheets */
+  const fl = W('fill'), fill = [], hsA = [];
+  const fh = fl.rows('B', x => /^type fg$/i.test(x))[0]; need(fh, `Sheet "${fl.name}": ไม่พบหัวตาราง "Type FG"`);
+  loop(fl, 'B', fh + 1, r => fill.push({group: fl.s('A', r), type: fl.s('B', r), item: fl.n('C', r), so: fl.n('D', r), act: fl.n('E', r), pct: r4(fl.n('F', r) ?? div(fl.n('E', r), fl.n('D', r)))}));
+  const dh = fl.rows('A', x => /^description$/i.test(x))[0]; need(dh, `Sheet "${fl.name}": ไม่พบตาราง "Description" (รายการแผ่น HS-Group A)`);
+  loop(fl, 'A', dh + 1, r => hsA.push({d: fl.s('A', r).replace(/^เหล็กแผ่นดำ\s*/, ''), stock: r4(fl.n('B', r)), so: r4(fl.n('C', r)), remain: r4(fl.n('D', r) ?? fl.n('B', r) - fl.n('C', r)), days: r4(fl.n('E', r))}));
+
+  /* capacity */
+  const cp = W('cap'), cap = [], ch = cp.rows('B', x => x === 'เครื่องจักร');
+  ch.forEach((h, i) => { const end = (ch[i + 1] || cp.maxRow + 1) - 1;
+    for(let r = h + 1; r <= end; r++){ if(!cp.s('B', r)) continue;
+      cap.push({group: cp.s('A', r), m: cp.s('B', r), teams: cp.n('C', r), open: cp.n('D', r), ot: cp.n('E', r), note: cp.v('F', r), proj: cp.v('G', r), qty: cp.v('H', r)}); } });
+
+  /* stay flat */
+  const sfw = W('sf'), mh = sfw.rows('A', x => /^month$/i.test(x)); need(mh.length >= 2, `Sheet "${sfw.name}": ต้องมีตาราง Stay Flat และ No Stay Flat`);
+  const sfBlock = h => { const out = []; loop(sfw, 'A', h + 1, r => { const wd = sfw.n('B', r), tgt = sfw.n('C', r), act = sfw.n('D', r), avg = sfw.n('E', r) ?? div(act, wd);
+    out.push({m: sfw.s('A', r), wd, tgt, act: r4(act), avg: r4(avg), pct: r4(sfw.n('F', r) ?? div(avg, tgt)), loss: r4(sfw.n('G', r) ?? (tgt - avg))}); }); return out; };
+  const sf = sfBlock(mh[0]), nsf = sfBlock(mh[1]);
+
+  /* no move */
+  const nw = W('nm'), noMove = []; let noMoveTotal = {req: '', stock: null};
+  const nh = nw.rows('A', x => x === 'กลุ่มลูกค้า')[0]; need(nh, `Sheet "${nw.name}": ไม่พบหัวตาราง "กลุ่มลูกค้า"`);
+  const tons = x => typeof x === 'number' ? x : (x && !isNaN(parseFloat(x))) ? parseFloat(x) : null;
+  for(let r = nh + 1; r <= nw.maxRow; r++){
+    if(/^total$/i.test(nw.s('A', r))){ const g = nw.v('G', r); noMoveTotal = {req: typeof g === 'number' ? `${g} T.` : (g || ''), stock: r4(nw.n('H', r))}; break; }
+    if(!nw.s('C', r)) continue;
+    noMove.push({cg: nw.sm('A', r), size: nw.sm('B', r), d: nw.s('C', r), aim: nw.n('D', r), safety: nw.n('E', r), stock: nw.n('F', r), reqT: tons(nw.v('G', r)), stockT: r4(nw.n('H', r)), note: nw.s('I', r) || null});
+  }
+  if(noMoveTotal.stock == null) noMoveTotal.stock = r4(noMove.reduce((s, r) => s + (r.stockT || 0), 0));
+
+  /* big pipe + GI proposal */
+  const bw = W('bp'), bigPipe = []; const bh = bw.rows('A', x => /^material$/i.test(x))[0] || 1;
+  loop(bw, 'A', bh + 1, r => bigPipe.push({mat: bw.s('A', r), d: bw.s('B', r), t: r4(bw.n('C', r))}), k => /^total$/i.test(k));
+  const gw = W('gib'), giBuy = []; const gh = gw.rows('A', x => /^size$/i.test(x))[0] || 1;
+  loop(gw, 'A', gh + 1, r => giBuy.push({size: gw.s('A', r), th: gw.n('B', r), std: gw.s('C', r), t: gw.n('D', r)}), k => /^total$/i.test(k));
+
+  const data = {coil, fg, storageCoil, flatSales, flatArea, mfgSales, mfgArea, plan, fill, hsA, cap, sf, nsf, noMoveTotal, noMove, bigPipe, giBuy};
+
+  /* rows the dashboard relies on by name — warn (not fail) when absent */
+  const warnings = [];
+  const expect = (arr, key, names, where) => { const miss = names.filter(n => !arr.some(r => r[key] === n)); if(miss.length) warnings.push(`${where}: ไม่พบ ${miss.join(', ')}`); };
+  expect(coil, 'name', ['Flat Product Group A', 'Consistency', 'Manufacturing Group A', 'Manufacturing Non Group A', 'GI COIL'], 'Coil');
+  expect(fg, 'name', ['HS Non Group A', 'FB Group A', 'FB Non Group A', 'Pipe Group A', 'Pipe Non Group A'], 'FG');
+  expect(mfgSales, 'type', ['PIPE', 'C Channel', 'PIPE GI', 'C Channel GI'], 'ยอดขาย Manufacturing');
+  expect(flatSales, 'type', ['HS'], 'ยอดขาย Flat Product');
+  if(storageCoil.length < 1) warnings.push('ไม่พบข้อมูลพื้นที่คลัง Coil');
+  if(plan.length < 3) warnings.push(`Actual Plan: พบ ${plan.length} สถานี (ปกติ 3 สถานี: ตัดม้วน / ท่อ / ซี)`);
+  if(sf.length < 3) warnings.push('Actual Stayflat: ข้อมูลน้อยกว่า 3 เดือน');
+  return {data, info: {prevName, curName, planMonth, warnings}};
+}
+
+/* ---------- storage (this browser only) ---------- */
+const LS_KEY = 'lsDash.v1';
+const BASE_KEY = '2026-11', BASE_FILE = 'Supply Chain Logistics.xlsx';
+const BASE_D = D;
+function loadStore(){ try{ const x = JSON.parse(localStorage.getItem(LS_KEY)); if(x && typeof x.months === 'object') return x; }catch(e){} return {months: {}, sel: null}; }
+function saveStore(st){ try{ localStorage.setItem(LS_KEY, JSON.stringify(st)); return true; }catch(e){ return false; } }
+let STORE = loadStore();
+function allSets(){
+  const out = {[BASE_KEY]: {D: BASE_D, file: BASE_FILE, base: true}};
+  Object.entries(STORE.months).forEach(([k, v]) => { if(v && v.D && Array.isArray(v.D.coil)) out[k] = v; });
+  return out;
+}
+const ymDate = k => { const [y, m] = k.split('-').map(Number); return new Date(y, m - 1, 1); };
+const prevKey = k => { const d = ymDate(k); d.setMonth(d.getMonth() - 1); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`; };
+const nextKey = k => { const d = ymDate(k); d.setMonth(d.getMonth() + 1); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`; };
+const thMon = k => ymDate(k).toLocaleDateString('th-TH', {month: 'short'});
+const thMonYear = k => ymDate(k).toLocaleDateString('th-TH', {month: 'short', year: 'numeric'});
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+
+let CUR_KEY = BASE_KEY;
+function setDataset(key){
+  const sets = allSets(); if(!sets[key]) key = BASE_KEY;
+  const ds = sets[key]; CUR_KEY = key; D = ds.D;
+  ML = {prev: thMon(prevKey(key)), cur: thMon(key)};
+  $$('.ml-prev').forEach(e => e.textContent = ML.prev); $$('.ml-cur').forEach(e => e.textContent = ML.cur);
+  $('#srcName').textContent = ds.file || BASE_FILE; $('#srcPill').title = ds.savedAt ? `อัปโหลดเมื่อ ${new Date(ds.savedAt).toLocaleString('th-TH')}` : 'ข้อมูลตั้งต้นที่ฝังในไฟล์ HTML';
+  const ft = document.querySelector('footer.foot .wrap > span'); if(ft) ft.innerHTML = `<b>CONTROL TOWER</b> · ข้อมูลเดือน ${esc(thMonYear(key))} · คำนวณจากไฟล์ ${esc(ds.file || BASE_FILE)} โดยตรง · ไม่มีการประมาณค่าเพิ่มเติม`;
+  let note = document.getElementById('insNote');
+  if(!note){ note = document.createElement('div'); note.id = 'insNote'; note.className = 'ds-note'; document.querySelector('.panel[data-panel="insight"]').prepend(note); }
+  note.hidden = !!ds.base;
+  note.innerHTML = `<span>ℹ️</span><span>ตัวเลขในบทวิเคราะห์คำนวณจากข้อมูล <b>${esc(thMonYear(key))}</b> อัตโนมัติ ส่วนหัวข้อ ระดับความเร่งด่วน และคำแนะนำทั่วไปบางข้อเป็นกรอบเดิมจากการวิเคราะห์ชุดตั้งต้น — ควรทบทวนก่อนนำไปใช้</span>`;
+  STORE.sel = key; saveStore(STORE);
+  fillSelect(); render();
+}
+function fillSelect(){
+  const sets = allSets(), keys = Object.keys(sets).sort().reverse();
+  $('#dsSel').innerHTML = keys.map(k => `<option value="${k}"${k === CUR_KEY ? ' selected' : ''}>${esc(thMonYear(k))}${sets[k].base ? ' · ตั้งต้น' : ''}</option>`).join('');
+}
+$('#dsSel').addEventListener('change', e => setDataset(e.target.value));
+
+/* ---------- toast ---------- */
+let toastT;
+function toast(msg, err){ const t = $('#toast'); t.textContent = msg; t.classList.toggle('err', !!err); t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), err ? 6000 : 3200); }
+
+/* ---------- upload dialog ---------- */
+const dlg = $('#upDlg'); let PARSED = null;
+function resetUpload(){
+  PARSED = null; $('#upFile').value = ''; $('#upRes').hidden = true; $('#upSave').disabled = true;
+  $('#upDrop').classList.remove('ok', 'over'); $('#upDropTxt').innerHTML = 'ลากไฟล์มาวาง หรือ <b>คลิกเพื่อเลือกไฟล์ .xlsx</b>';
+}
+$('#dsAdd').addEventListener('click', () => {
+  resetUpload();
+  const latest = Object.keys(allSets()).sort().pop();
+  $('#upMonth').value = nextKey(latest);
+  renderSaved(); dlg.showModal();
+});
+function monthWarn(){
+  if(!PARSED) return '';
+  const k = $('#upMonth').value; if(!k) return '';
+  const want = EN_MONTH[ymDate(k).getMonth()], wantPrev = EN_MONTH[ymDate(prevKey(k)).getMonth()];
+  const {curName, prevName} = PARSED.info, bad = [];
+  if(curName && curName.toLowerCase() !== want.toLowerCase()) bad.push(`หัวตารางยอดขายเดือนปัจจุบันในไฟล์คือ "${esc(curName)}" แต่เลือกเดือน ${esc(thMonYear(k))}`);
+  if(prevName && prevName.toLowerCase() !== wantPrev.toLowerCase()) bad.push(`หัวตารางเดือนก่อนหน้าในไฟล์คือ "${esc(prevName)}" (คาดว่าเป็น ${wantPrev})`);
+  return bad.length ? `<div class="warn">⚠️ ${bad.join('<br>')} — ตรวจสอบว่าเลือกเดือนถูกต้อง</div>` : '';
+}
+function showResult(){
+  const box = $('#upRes'); box.hidden = false; box.className = 'upres';
+  const d = PARSED.data, k = $('#upMonth').value, sets = allSets();
+  const coilAll = d.coil.filter(r => r.seg === 'All').reduce((s, r) => s + (r.stock || 0), 0);
+  const fgS = d.fg.reduce((s, r) => s + (r.stock || 0), 0);
+  box.innerHTML = `<h4>✓ อ่านไฟล์สำเร็จ · ${esc(PARSED.file)}</h4>
+    <div class="kv"><span>Coil วัตถุดิบ</span><b>${nf(coilAll)} ตัน</b><span>คลัง Coil (รวม)</span><b>${nf(d.storageCoil[0] && d.storageCoil[0].stock)} ตัน</b>
+    <span>สต็อก FG</span><b>${nf(fgS)} ตัน</b><span>รายการ</span><b>${d.coil.length} Coil · ${d.fg.length} FG · ${d.noMove.length} No Move</b></div>
+    ${PARSED.info.warnings.length ? `<div class="warn">⚠️ ${PARSED.info.warnings.map(esc).join('<br>')}<br>หน้าที่ใช้ข้อมูลเหล่านี้อาจแสดงไม่ครบ</div>` : ''}
+    ${monthWarn()}
+    ${k && sets[k] ? `<div class="warn">มีข้อมูลเดือน ${esc(thMonYear(k))} อยู่แล้ว — กดบันทึกเพื่อแทนที่ข้อมูลเดิม</div>` : ''}`;
+  $('#upSave').disabled = !k;
+}
+async function handleFile(file){
+  if(!file) return;
+  resetUpload();
+  const box = $('#upRes');
+  try{
+    if(!/\.xlsx$/i.test(file.name)) throw new Error('รองรับเฉพาะไฟล์ .xlsx (หากเป็น .xls ให้บันทึกเป็น .xlsx ก่อน)');
+    if(!('DecompressionStream' in window)) throw new Error('เบราว์เซอร์นี้อ่านไฟล์ Excel ไม่ได้ กรุณาใช้ Chrome หรือ Edge เวอร์ชันล่าสุด');
+    $('#upDropTxt').textContent = 'กำลังอ่านไฟล์…';
+    const parsed = buildData(await XL.read(await file.arrayBuffer()));
+    PARSED = {...parsed, file: file.name};
+    $('#upDrop').classList.add('ok'); $('#upDropTxt').innerHTML = `<b>${esc(file.name)}</b> · คลิกเพื่อเปลี่ยนไฟล์`;
+    showResult();
+  }catch(e){
+    PARSED = null; $('#upDropTxt').innerHTML = 'ลากไฟล์มาวาง หรือ <b>คลิกเพื่อเลือกไฟล์ .xlsx</b>';
+    box.hidden = false; box.className = 'upres err';
+    box.innerHTML = `<h4>อ่านไฟล์ไม่สำเร็จ</h4><div>${esc(e.message || e)}</div><div class="hint">ไฟล์ต้องเป็นรูปแบบเดียวกับ ${BASE_FILE} (ชื่อ Sheet และหัวตารางเดิม)</div>`;
+  }
+}
+$('#upFile').addEventListener('change', e => handleFile(e.target.files[0]));
+$('#upMonth').addEventListener('change', () => { if(PARSED) showResult(); });
+const drop = $('#upDrop');
+['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
+drop.addEventListener('drop', e => handleFile(e.dataTransfer.files[0]));
+$('#upSave').addEventListener('click', () => {
+  const k = $('#upMonth').value; if(!PARSED || !/^\d{4}-\d{2}$/.test(k)) return;
+  const prev = STORE.months[k];
+  STORE.months[k] = {D: PARSED.data, file: PARSED.file, savedAt: new Date().toISOString()};
+  if(!saveStore(STORE)){ if(prev) STORE.months[k] = prev; else delete STORE.months[k]; toast('บันทึกไม่สำเร็จ: พื้นที่เก็บข้อมูลของเบราว์เซอร์เต็มหรือถูกปิดไว้', true); return; }
+  dlg.close(); setDataset(k); toast(`บันทึกข้อมูลเดือน ${thMonYear(k)} แล้ว`);
+});
+function renderSaved(){
+  const ks = Object.keys(STORE.months).sort().reverse();
+  $('#savedCount').textContent = `(${ks.length} เดือน)`;
+  $('#savedList').innerHTML = (ks.length ? ks.map(k => { const m = STORE.months[k];
+    return `<div class="sv-row"><div><b>${esc(thMonYear(k))}</b><small>${esc(m.file || '')} · อัปโหลด ${m.savedAt ? esc(new Date(m.savedAt).toLocaleString('th-TH')) : '-'}</small></div><button type="button" class="sv-del" data-k="${k}">ลบ</button></div>`; }).join('')
+    : '<div class="hint">ยังไม่มีข้อมูลที่อัปโหลด</div>') + `<div class="sv-row"><div><b>${esc(thMonYear(BASE_KEY))} · ตั้งต้น</b><small>ฝังอยู่ในไฟล์ HTML (ลบไม่ได้)</small></div></div>`;
+  $$('#savedList .sv-del').forEach(b => b.onclick = () => {
+    const k = b.dataset.k; if(!confirm(`ลบข้อมูลเดือน ${thMonYear(k)} ออกจากเครื่องนี้?`)) return;
+    delete STORE.months[k]; saveStore(STORE); renderSaved();
+    if(CUR_KEY === k) setDataset(Object.keys(allSets()).sort().pop()); else fillSelect();
+    toast(`ลบข้อมูลเดือน ${thMonYear(k)} แล้ว`);
+  });
+}
+$('#bkExport').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify({app: 'lsDash', v: 1, exportedAt: new Date().toISOString(), months: STORE.months})], {type: 'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `logistics-dashboard-backup-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+});
+$('#bkImport').addEventListener('change', async e => {
+  const f = e.target.files[0]; e.target.value = ''; if(!f) return;
+  try{
+    const j = JSON.parse(await f.text());
+    const months = j && j.months; if(!months || typeof months !== 'object') throw new Error('ไม่ใช่ไฟล์สำรองของ Dashboard นี้');
+    let n = 0; Object.entries(months).forEach(([k, v]) => { if(/^\d{4}-\d{2}$/.test(k) && v && v.D && Array.isArray(v.D.coil) && Array.isArray(v.D.fg)){ STORE.months[k] = v; n++; } });
+    if(!n) throw new Error('ไม่พบข้อมูลรายเดือนในไฟล์');
+    if(!saveStore(STORE)) throw new Error('พื้นที่เก็บข้อมูลของเบราว์เซอร์เต็มหรือถูกปิดไว้');
+    renderSaved(); fillSelect(); toast(`นำเข้าข้อมูล ${n} เดือนแล้ว`);
+  }catch(err){ toast('นำเข้าไม่สำเร็จ: ' + (err.message || err), true); }
+});
+
+/* ---------- start on the last viewed month ---------- */
+setDataset(STORE.sel && allSets()[STORE.sel] ? STORE.sel : Object.keys(allSets()).sort().pop());
 </script>
 </body>
 </html>
