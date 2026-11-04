@@ -226,8 +226,6 @@ main{counter-reset:sec}
 .srow .s-split i{width:10px;height:10px;border-radius:3px;display:inline-block}
 .srow .s-split b{font-family:var(--num);font-weight:600;color:var(--t-900)}
 .srow .s-split em{font-style:normal;font-size:11px;color:var(--muted);background:var(--line-2);padding:1px 7px;border-radius:999px}
-.srow .s-note{margin-top:6px;font-size:11.5px;color:var(--muted);line-height:1.5;padding:6px 10px;border-radius:10px;background:var(--blue-50);border-left:3px solid var(--b-blue)}
-
 /* legend */
 .legend{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:12.3px;color:var(--text-2)}
 .legend span{display:inline-flex;align-items:center;gap:6px}
@@ -775,15 +773,15 @@ function kpi(o){
 function animateIn(scope){ stagger(scope); scope.querySelectorAll('.cu').forEach(countUp); setTimeout(()=>{ scope.querySelectorAll('[data-w]').forEach(i=>i.style.width=i.dataset.w+'%'); },80); }
 
 /* ================= OVERVIEW ================= */
-/* คลัง Coil = Coil วัตถุดิบ (ผลรวมแถว "All" ทุกกลุ่ม ไม่ขึ้นกับตัวกรอง) + Service Coil
-   ไฟล์ต้นทางไม่มีตัวเลข Service Coil โดยตรง จึงคำนวณจาก สต็อกในคลัง Coil − Coil วัตถุดิบ */
+/* คลัง Coil = Coil วัตถุดิบ (ผลรวมแถว "All" ทุกกลุ่ม ไม่ขึ้นกับตัวกรอง) + Other Coil
+   ไฟล์ต้นทางไม่มีตัวเลข Other Coil โดยตรง จึงคำนวณจาก สต็อกในคลัง Coil − Coil วัตถุดิบ */
 const coilOwnStock = () => D.coil.filter(r=>r.seg==='All').reduce((s,r)=>s+r.stock,0);
 const serviceCoil = () => Math.max(0, D.storageCoil[0].stock - coilOwnStock());
 function storageList(){
   const flatUsed = D.flatArea.area - D.flatArea.remain, mfgUsed = D.mfgArea.area - D.mfgArea.remain;
   return [
-    {n:'คลัง Coil', sub:'Coil วัตถุดิบ + Service Coil', g:'COIL', area:D.storageCoil[0].area, used:D.storageCoil[0].stock, rem:D.storageCoil[0].remain,
-      parts:[{lab:'Coil วัตถุดิบ',v:coilOwnStock(),c:C.s1},{lab:'Service Coil',v:serviceCoil(),c:C.s3}]},
+    {n:'คลัง Coil', sub:'Coil วัตถุดิบ + Other Coil', g:'COIL', area:D.storageCoil[0].area, used:D.storageCoil[0].stock, rem:D.storageCoil[0].remain,
+      parts:[{lab:'Coil วัตถุดิบ',v:coilOwnStock(),c:C.s1},{lab:'Other Coil',v:serviceCoil(),c:C.s3}]},
     {n:'คลัง Film', g:'COIL', area:D.storageCoil[1].area, used:D.storageCoil[1].stock, rem:D.storageCoil[1].remain},
     {n:'คลัง FG Flat Product', sub:'HS + FB', g:'Flat Product', area:D.flatArea.area, used:flatUsed, rem:D.flatArea.remain},
     {n:'คลัง FG Manufacturing', sub:'ท่อ + ซี + GI', g:'Manufacturing', area:D.mfgArea.area, used:mfgUsed, rem:D.mfgArea.remain},
@@ -815,10 +813,10 @@ function renderOverview(){
   const plan = sales.filter(r=>r.plan!=null).reduce((s,r)=>s+r.plan,0), actP = sales.filter(r=>r.plan!=null).reduce((s,r)=>s+r.act,0);
   const scope = rows.length? rows.map(r=>short(r.name)).join(' · ') : 'ไม่มีข้อมูลตามตัวกรอง';
   $('#kpis').innerHTML = [
-    /* Service Coil is not split by group in the source file, so it can only be added when no group/segment filter is applied */
+    /* Other Coil is not split by group in the source file, so it can only be added when no group/segment filter is applied */
     (S.group==='all' && S.seg==='all')
-      ? kpi({icon:'box',lab:'สต็อก Coil (รวม Service Coil)',v:stock+serviceCoil(),u:'ตัน',foot:`Coil วัตถุดิบ <b>${nf(stock)}</b> + Service Coil <b>${nf(serviceCoil())}</b> ตัน<br>${scope}`})
-      : kpi({icon:'box',lab:'สต็อก Coil',v:stock,u:'ตัน',foot:`${scope}<br>ตามตัวกรอง · ไม่รวม Service Coil ${nf(serviceCoil())} ตัน (ไม่ได้แยกตามกลุ่ม)`}),
+      ? kpi({icon:'box',lab:'สต็อก Coil (รวม Other Coil)',v:stock+serviceCoil(),u:'ตัน',foot:`Coil วัตถุดิบ <b>${nf(stock)}</b> + Other Coil <b>${nf(serviceCoil())}</b> ตัน<br>${scope}`})
+      : kpi({icon:'box',lab:'สต็อก Coil',v:stock,u:'ตัน',foot:`${scope}<br>ตามตัวกรอง · ไม่รวม Other Coil ${nf(serviceCoil())} ตัน (ไม่ได้แยกตามกลุ่ม)`}),
     kpi({icon:'truck',lab:'PO ค้างรับ',v:po,u:'ตัน',o:1,foot:`คิดเป็น ${stock?(po/stock).toFixed(1):'–'} เท่าของสต็อกในมือ`}),
     kpi({icon:'clock',lab:'วันสต็อก Coil รวม',v:iss?stock/iss:0,d:1,u:'วัน',foot:`สต็อก ÷ เบิกใช้ ${nf(iss)} ตัน/วัน · รวม PO ${iss?((stock+po)/iss).toFixed(1):'–'} วัน`}),
     kpi({icon:'pause',lab:'Coil Non-Active',v:stock?na/stock*100:0,d:1,s:'%',u:'',o:1,foot:`${nf(na,1)} ตัน ที่ไม่เคลื่อนไหว`,bar:stock?na/stock/0.2:0,barC:C.s2}),
@@ -831,8 +829,7 @@ function renderOverview(){
     return `<div class="srow"><div class="s-top"><span class="s-name">${s.n}${s.sub?`<small>${s.sub}</small>`:''}</span><span style="display:flex;gap:8px;align-items:center">${status(lv[0],lv[1])}<span class="s-pct">${pf(p)}</span></span></div>
     <div class="track">${s.parts ? (()=>{ let left=0; return s.parts.map((q,k)=>{ const w=q.v/s.area*100, h=`<i data-w="${w}" style="left:${left}%;background:${q.c};border-radius:${k===0?'10px 0 0 10px':'0 10px 10px 0'}" title="${q.lab} ${nf(q.v)} ตัน"></i>`; left+=w; return h; }).join(''); })() : `<i data-w="${p*100}" style="background:${col}"></i>`}<span class="mark" style="left:85%"></span></div>
     <div class="s-foot"><span>ใช้ ${nf(s.used)} / ${nf(s.area)} ตัน</span><span>เหลือ ${nf(s.rem)} ตัน</span></div>
-    ${s.parts ? `<div class="s-split">${s.parts.map(q=>`<span><i style="background:${q.c}"></i>${q.lab} <b>${nf(q.v)}</b> ตัน <em>${pf(q.v/s.used,0)}</em></span>`).join('')}</div>
-    <div class="s-note">Service Coil = สต็อกในคลัง Coil ${nf(s.used)} − Coil วัตถุดิบทุกกลุ่ม ${nf(s.parts[0].v)} ตัน (ไฟล์ต้นทางไม่ได้ระบุแยกไว้)</div>` : ''}</div>`; }).join('');
+    ${s.parts ? `<div class="s-split">${s.parts.map(q=>`<span><i style="background:${q.c}"></i>${q.lab} <b>${nf(q.v)}</b> ตัน <em>${pf(q.v/s.used,0)}</em></span>`).join('')}</div>` : ''}</div>`; }).join('');
 
   /* coil stockday chart */
   const cr = rows;
